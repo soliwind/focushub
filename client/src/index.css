@@ -1,0 +1,611 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css');
+
+:root {
+  --ash: #cad2c5;
+  --sage: #84a98c;
+  --teal: #52796f;
+  --slate: #354f52;
+  --ink: #2f3e46;
+
+  --canvas: #f2f4f0;
+  --surface: #ffffff;
+  --line: #dde3da;
+  --line-soft: #e8ebe5;
+  --text: #2f3e46;
+  --text-soft: #6b7c73;
+  --text-faint: #93a29a;
+
+  --radius: 2px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, sans-serif;
+  background: var(--canvas);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+button {
+  font-family: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ── 레이아웃 ───────────────────────────── */
+.page {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 4px 22px 72px;
+}
+
+.app-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 18px 22px 16px;
+}
+
+.app-bar-right {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  font-size: 13px;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+}
+
+.wordmark.lg {
+  font-size: 27px;
+  gap: 12px;
+}
+
+.soft {
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+/* ── 시작 화면 ──────────────────────────── */
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth {
+  width: 100%;
+  max-width: 340px;
+}
+
+.auth-note {
+  color: var(--text-soft);
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin: 12px 0 30px;
+}
+
+.segmented {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.segmented button {
+  flex: 1;
+  padding: 10px;
+  font-size: 13.5px;
+  color: var(--text-soft);
+  background: transparent;
+}
+
+.segmented button + button {
+  border-left: 1px solid var(--line);
+}
+
+.segmented button.on {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* ── 입력 ───────────────────────────────── */
+.input {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: 14px;
+  font-family: inherit;
+  color: var(--text);
+  margin-bottom: 9px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #a7b3ab;
+}
+
+.input:focus {
+  border-color: var(--teal);
+}
+
+.label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-soft);
+  margin-bottom: 6px;
+}
+
+.form {
+  padding: 4px 0 14px;
+  border-bottom: 1px solid var(--line-soft);
+  margin-bottom: 14px;
+}
+
+.code-input {
+  margin-bottom: 0;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+}
+
+.join {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.join .input {
+  flex: 1;
+}
+
+/* ── 버튼 ───────────────────────────────── */
+.btn {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  border-radius: var(--radius);
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.btn.solid {
+  background: var(--teal);
+  color: #f4f7f2;
+}
+
+.btn.solid:hover {
+  background: var(--slate);
+}
+
+.btn.solid:disabled {
+  background: #a9b7ae;
+  cursor: default;
+}
+
+.btn.line {
+  border: 1px solid var(--teal);
+  color: var(--teal);
+  background: transparent;
+  white-space: nowrap;
+  width: auto;
+  padding: 12px 20px;
+}
+
+.btn.line:hover {
+  background: rgba(82, 121, 111, 0.06);
+}
+
+.text-btn {
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.text-btn.center {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 18px;
+  color: var(--text-soft);
+}
+
+.error {
+  color: #b3453f;
+  font-size: 13px;
+  margin: 8px 0 10px;
+}
+
+/* ── 로비 ───────────────────────────────── */
+.stat {
+  padding: 10px 0 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stat-label {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 27px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+.block {
+  padding: 22px 0 4px;
+}
+
+.block-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.block-head h3 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.empty {
+  border: 1px dashed var(--ash);
+  border-radius: var(--radius);
+  padding: 26px 20px;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+
+.room-list {
+  margin-top: 4px;
+}
+
+.room {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 15px 16px;
+  margin-bottom: 9px;
+}
+
+.room:hover {
+  border-color: var(--sage);
+}
+
+.room-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.room-top strong {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.room-bot {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-soft);
+  margin-top: 9px;
+}
+
+.code {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--teal);
+  background: #edf1eb;
+  border-radius: var(--radius);
+  padding: 3px 7px;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+}
+
+.code.clickable:hover {
+  background: var(--ash);
+}
+
+.stack {
+  display: flex;
+  height: 6px;
+  background: var(--line-soft);
+  border-radius: 1px;
+  overflow: hidden;
+  gap: 1.5px;
+}
+
+.stack span {
+  display: block;
+  height: 100%;
+  transition: width 0.4s ease;
+}
+
+/* ── 스터디룸 ───────────────────────────── */
+.room-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.room-head h2 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 26px 0 22px;
+}
+
+.ring-value {
+  font-size: 30px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  fill: var(--ink);
+}
+
+.ring-sub {
+  font-size: 11.5px;
+  fill: var(--text-faint);
+}
+
+.ring-caption {
+  font-size: 13px;
+  color: var(--text-soft);
+  margin-top: 14px;
+}
+
+.pair {
+  display: flex;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  margin-bottom: 14px;
+}
+
+.pair > div {
+  flex: 1;
+  padding: 14px 14px;
+}
+
+.pair > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.pair .k {
+  display: block;
+  font-size: 11.5px;
+  color: var(--text-faint);
+  margin-bottom: 5px;
+}
+
+.pair .v {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── 참여자 ─────────────────────────────── */
+.person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 14px;
+}
+
+.person:last-child {
+  border-bottom: none;
+}
+
+.chip {
+  width: 3px;
+  height: 17px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.person .nm {
+  font-weight: 500;
+}
+
+.person .st {
+  font-size: 12px;
+  color: var(--text-faint);
+}
+
+.person .tm {
+  margin-left: auto;
+  font-size: 13px;
+  color: var(--text-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--teal);
+  border: 1px solid var(--ash);
+  border-radius: var(--radius);
+  padding: 1px 5px;
+}
+
+/* ── 공부 중 화면 ───────────────────────── */
+.focus {
+  min-height: 100vh;
+  background: var(--ink);
+  color: var(--ash);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 26px;
+  transition: background 0.4s ease;
+}
+
+.focus.off-track {
+  background: #3a4a41;
+}
+
+.focus-state {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--sage);
+}
+
+.pulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--sage);
+}
+
+.focus.off-track .pulse {
+  background: #c8b98a;
+}
+
+.focus.off-track .focus-state {
+  color: #c8b98a;
+}
+
+.clock {
+  font-size: 52px;
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  font-variant-numeric: tabular-nums;
+  color: #edf1eb;
+  margin: 20px 0 4px;
+}
+
+.focus-sub {
+  font-size: 12.5px;
+  color: #7e9186;
+  min-height: 19px;
+}
+
+.focus-label {
+  font-size: 13px;
+  color: #7e9186;
+}
+
+.focus-result {
+  font-size: 40px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  color: #edf1eb;
+  margin: 14px 0 6px;
+}
+
+.focus-actions {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 46px;
+}
+
+.focus-pair {
+  display: flex;
+  border: 1px solid #44585e;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.focus-pair .focus-btn {
+  flex: 1;
+}
+
+.focus-pair .focus-btn + .focus-btn {
+  border-left: 1px solid #44585e;
+}
+
+.focus-btn {
+  padding: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: #cfdcd3;
+  background: transparent;
+  transition: background 0.15s;
+}
+
+.focus-btn:hover {
+  background: rgba(202, 210, 197, 0.07);
+}
+
+.focus-btn:disabled {
+  color: #5f7278;
+  cursor: default;
+}
+
+.focus-btn:disabled:hover {
+  background: transparent;
+}
+
+.focus-btn.wide {
+  width: 100%;
+  border: 1px solid #44585e;
+  border-radius: var(--radius);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
