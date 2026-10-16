@@ -1,0 +1,50 @@
+@import './tokens.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+
+a {
+  color: var(--ink);
+}
+
+a:hover {
+  color: var(--primary);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* 페이지 공통 본문 영역: 좌우 여백 56px, 최대 너비 1280px */
+.page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px 56px 72px;
+}
+
+.page-title {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -1.2px;
+}
+
+.page-note {
+  margin: 14px 0 0;
+  color: var(--ink-2);
+}

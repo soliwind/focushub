@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>FocusHub 기록</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2ECE7}
+a{color:#3A2F28}a:hover{color:#7A6250}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1160px; box-sizing: border-box; background: #F2ECE7; font-family: 'IBM Plex Sans KR', sans-serif; color: #3A2F28; font-size: 15px; line-height: 1.6; font-variant-numeric: tabular-nums;">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 36px; padding: 22px 56px; max-width: 1280px; margin: 0 auto; box-sizing: border-box;">
+<div style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px;">FocusHub</div>
+<nav aria-label="주요 메뉴" style="display: flex; gap: 24px; font-size: 15px;">
+<a href="Main.dc.html" style="text-decoration: none; color: #6E5E52; padding-bottom: 2px;">타이머</a>
+<a href="Records.dc.html" aria-current="page" style="text-decoration: none; border-bottom: 2px solid #3A2F28; padding-bottom: 2px;">기록</a>
+<a href="Group.dc.html" style="text-decoration: none; color: #6E5E52; padding-bottom: 2px;">스터디그룹</a>
+</nav>
+</header>
+
+<main style="padding: 48px 56px 72px; max-width: 1280px; margin: 0 auto; box-sizing: border-box;">
+
+<div style="display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 14px; color: #6E5E52; margin-bottom: 18px;">
+<a href="#" style="text-decoration: none; color: #6E5E52;">오늘</a>
+<a href="#" aria-current="true" style="text-decoration: none; color: #3A2F28; font-weight: 600;">이번 주</a>
+<a href="#" style="text-decoration: none; color: #6E5E52;">기간 선택</a>
+<span style="margin-left: auto;">10월 12일 ~ 18일 · 하루는 오전 5시에 시작</span>
+</div>
+
+<h1 style="margin: 0; font-size: 40px; line-height: 1.3; font-weight: 500; letter-spacing: -1.2px; max-width: 760px;">이번 주에는 <span style="color: #7A6250; font-weight: 600;">5일</span> 동안 <span style="color: #7A6250; font-weight: 600;">16시간 40분</span> 공부했어요.</h1>
+<p style="margin: 14px 0 0; font-size: 15px; color: #6E5E52;">세션 17개 · 평균 50분 · 자리 비움 23번 (참고 기록)</p>
+
+<section aria-label="요일별 공부 시간" style="margin-top: 56px;">
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; align-items: end; height: 240px; border-bottom: 1px solid rgba(58,47,40,0.18);">
+<sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+<div style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">
+<span style="font-size: 14px; color: {{d.labelInk}}; margin-bottom: 8px;">{{d.label}}</span>
+<div style="height: {{d.h}}; background: {{d.fill}}; border-radius: 10px 10px 0 0;"></div>
+</div>
+</sc-for>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; margin-top: 10px;">
+<sc-for list="{{week}}" as="d" hint-placeholder-count="7">
+<div style="font-size: 14px; line-height: 1.4;"><div style="font-weight: {{d.dayWeight}};">{{d.day}}</div><div style="font-size: 12px; color: {{d.noteInk}};">{{d.note}}</div></div>
+</sc-for>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 56px 72px; margin-top: 72px;">
+<section aria-label="세션 기록" style="flex: 999 1 560px; min-width: 0;">
+<h2 style="margin: 0 0 6px; font-size: 13px; font-weight: 500; color: #6E5E52;">세션</h2>
+<sc-for list="{{days}}" as="g" hint-placeholder-count="3">
+<div style="margin-top: 22px;">
+<div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; padding-bottom: 8px; border-bottom: 1px solid rgba(58,47,40,0.18);"><span>{{g.title}}</span><span>{{g.total}}</span></div>
+<sc-for list="{{g.rows}}" as="r" hint-placeholder-count="2">
+<div style="display: grid; grid-template-columns: 112px minmax(0, 1fr) auto; gap: 16px; padding: 11px 0; border-bottom: 1px solid rgba(58,47,40,0.08); font-size: 14px; align-items: baseline;">
+<span style="color: #6E5E52;">{{r.range}}</span>
+<span><span>{{r.goal}}</span><span style="display: block; font-size: 12px; color: {{r.noteInk}};">{{r.note}}</span></span>
+<span style="font-weight: 500;">{{r.time}}</span>
+</div>
+</sc-for>
+</div>
+</sc-for>
+</section>
+
+<section aria-label="최근 12주" style="flex: 1 1 300px; min-width: 0;">
+<h2 style="margin: 0 0 6px; font-size: 13px; font-weight: 500; color: #6E5E52;">최근 12주</h2>
+<p style="margin: 0 0 18px; font-size: 15px;">5일째 이어서 공부하고 있어요.</p>
+<div style="display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px; max-width: 360px;">
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="12">
+<div style="display: grid; gap: 4px;">
+<sc-for list="{{c.cells}}" as="cell" hint-placeholder-count="7">
+<div title="{{cell.tip}}" style="aspect-ratio: 1; border-radius: 4px; background: {{cell.bg}};"></div>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; align-items: center; gap: 4px; margin-top: 12px; font-size: 12px; color: #6E5E52;">
+<span style="margin-right: 4px;">0시간</span>
+<span style="width: 12px; height: 12px; border-radius: 3px; background: #E6DDD5;"></span>
+<span style="width: 12px; height: 12px; border-radius: 3px; background: #D6C6B9;"></span>
+<span style="width: 12px; height: 12px; border-radius: 3px; background: #C6B09E;"></span>
+<span style="width: 12px; height: 12px; border-radius: 3px; background: #B2967D;"></span>
+<span style="width: 12px; height: 12px; border-radius: 3px; background: #8E7562;"></span>
+<span style="margin-left: 4px;">4시간 이상</span>
+</div>
+</section>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1160}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const mins = [190, 145, 230, 300, 135, 0, 0];
+    const days = ['월 12', '화 13', '수 14', '목 15', '금 16', '토 17', '일 18'];
+    const hm = (m) => Math.floor(m / 60) + '시간 ' + (m % 60 ? (m % 60) + '분' : '').trim();
+    const week = mins.map((m, i) => {
+      const today = i === 4;
+      return {
+        day: days[i] + (today ? ' · 오늘' : ''),
+        dayWeight: today ? '600' : '400',
+        label: m ? (Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0')) : '',
+        labelInk: today ? '#3A2F28' : '#6E5E52',
+        h: m ? Math.round((m / 300) * 190) + 'px' : '3px',
+        fill: today ? 'linear-gradient(180deg, #ECF8F8 0%, #C9D6CE 22%, #B2967D 70%)' : (m ? '#B2967D' : 'rgba(58,47,40,0.12)'),
+        note: today ? '지금 공부 중' : '',
+        noteInk: '#4F6B66'
+      };
+    });
+    const shades = ['#E6DDD5', '#D6C6B9', '#C6B09E', '#B2967D', '#8E7562'];
+    const names = ['공부 안 함', '1시간 미만', '1~2시간', '2~4시간', '4시간 이상'];
+    let seed = 11;
+    const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+    const cols = [];
+    for (let w = 0; w < 12; w++) {
+      const cells = [];
+      for (let d = 0; d < 7; d++) {
+        let lvl;
+        if (w === 11) lvl = d < 5 ? [2, 2, 3, 4, 2][d] : 0;
+        else { const r = rnd() + w * 0.02; lvl = r < 0.38 ? 0 : r < 0.58 ? 1 : r < 0.78 ? 2 : r < 0.93 ? 3 : 4; if (d >= 5 && lvl > 1) lvl = 1; }
+        cells.push({ bg: shades[lvl], tip: names[lvl] });
+      }
+      cols.push({ cells: cells });
+    }
+    const plain = '#6E5E52', away = '#7A4433';
+    const daysList = [
+      { title: '10월 16일 금요일', total: '2시간 15분', rows: [
+        { range: '14:02 – 지금', goal: '미적분 문제풀이', note: '진행 중 · 자리 비움 1번', noteInk: '#4F6B66', time: '0:47' },
+        { range: '09:10 – 10:38', goal: '영어 독해 3장', note: '자리 비움 없음', noteInk: plain, time: '1:28' }
+      ]},
+      { title: '10월 15일 목요일', total: '5시간', rows: [
+        { range: '20:05 – 21:52', goal: '미적분 개념 정리', note: '자리 비움 2번, 6분', noteInk: plain, time: '1:47' },
+        { range: '15:30 – 16:12', goal: '한국사 근현대', note: '38분 동안 자리를 비워 그 전까지만 기록함', noteInk: away, time: '0:42' },
+        { range: '10:00 – 12:31', goal: '정보처리기사 필기 1과목', note: '자리 비움 4번, 11분', noteInk: plain, time: '2:31' }
+      ]},
+      { title: '10월 14일 수요일', total: '3시간 50분', rows: [
+        { range: '19:40 – 21:15', goal: '영어 단어', note: '그룹에 공유하지 않음', noteInk: plain, time: '1:35' },
+        { range: '13:20 – 15:35', goal: '정보처리기사 필기 2과목', note: '자리 비움 3번, 9분', noteInk: plain, time: '2:15' }
+      ]}
+    ];
+    return { week: week, cols: cols, days: daysList };
+  }
+}
+</script>
+</body>
+</html>

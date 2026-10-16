@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>FocusHub 타이머</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&amp;family=Red+Hat+Mono:wght@300;400&amp;display=swap">
+<style>
+body{margin:0;background:#F2ECE7}
+a{color:#3A2F28}a:hover{color:#7A6250}
+input[type=range]{accent-color:#7A6250}
+input[type=checkbox]{accent-color:#7A6250;width:16px;height:16px;margin:0}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 900px; box-sizing: border-box; background: {{bg}}; font-family: 'IBM Plex Sans KR', sans-serif; color: #3A2F28; font-size: 15px; line-height: 1.6; display: flex; flex-direction: column;">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 36px; padding: 22px 56px; max-width: 1280px; width: 100%; margin: 0 auto; box-sizing: border-box;">
+<div style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px;">FocusHub</div>
+<nav aria-label="주요 메뉴" style="display: flex; gap: 24px; font-size: 15px;">
+<a href="Main.dc.html" aria-current="page" style="text-decoration: none; border-bottom: 2px solid #3A2F28; padding-bottom: 2px;">타이머</a>
+<a href="Records.dc.html" style="text-decoration: none; color: #6E5E52; padding-bottom: 2px;">기록</a>
+<a href="Group.dc.html" style="text-decoration: none; color: #6E5E52; padding-bottom: 2px;">스터디그룹</a>
+</nav>
+<div style="margin-left: auto; font-size: 13px; color: #6E5E52;">브라우저 탭 제목 <span style="font-family: 'Red Hat Mono', monospace; color: #3A2F28; margin-left: 6px;">{{tabTitle}}</span></div>
+</header>
+
+<main style="flex: 1; display: flex; flex-wrap: wrap; gap: 40px 72px; padding: 56px 56px 40px; max-width: 1280px; width: 100%; margin: 0 auto; box-sizing: border-box;">
+
+<section aria-label="타이머" style="flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column;">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font-size: 14px;">
+<span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 50%; background: {{dot}};"></span>
+<span style="color: {{stateInk}}; font-weight: 600;">{{statusText}}</span>
+<span style="color: #6E5E52;">· 10월 16일 금요일</span>
+</div>
+
+<label for="goal" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">지금 공부하는 것</label>
+<input id="goal" value="{{goal}}" onChange="{{setGoal}}" placeholder="무엇을 공부하나요" style="font: 500 26px 'IBM Plex Sans KR', sans-serif; letter-spacing: -0.4px; color: #3A2F28; border: none; border-bottom: 1px solid rgba(58,47,40,0.18); background: transparent; padding: 14px 0 10px; outline: none; max-width: 600px;">
+
+<div style="font-family: 'Red Hat Mono', monospace; font-weight: 300; font-size: 148px; line-height: 1; letter-spacing: -7px; color: {{timeColor}}; font-variant-numeric: tabular-nums; margin: 52px 0 18px -6px;">{{timeText}}</div>
+<div style="font-size: 14px; color: #6E5E52;">{{awayLine}}</div>
+
+<sc-if value="{{isRunning}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 48px; align-items: center;">
+<button onClick="{{end}}" style="height: 50px; padding: 0 26px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">마치고 저장</button>
+<button onClick="{{pause}}" style="height: 50px; padding: 0 22px; font: 500 15px 'IBM Plex Sans KR', sans-serif; color: #3A2F28; background: transparent; border: 1px solid rgba(58,47,40,0.28); border-radius: 10px;">일시정지</button>
+<button onClick="{{goAway}}" style="height: 40px; padding: 0 4px; font: 400 13px 'IBM Plex Sans KR', sans-serif; color: #6E5E52; background: transparent; border: none; text-decoration: underline; text-underline-offset: 3px; margin-left: 12px;">시연: 다른 탭으로 이동</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isIdle}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 48px;">
+<button onClick="{{start}}" style="height: 54px; padding: 0 34px; font: 600 16px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">시작</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isPaused}}" hint-placeholder-val="{{false}}">
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 48px;">
+<button onClick="{{resume}}" style="height: 50px; padding: 0 26px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">다시 시작</button>
+<button onClick="{{end}}" style="height: 50px; padding: 0 22px; font: 500 15px 'IBM Plex Sans KR', sans-serif; color: #3A2F28; background: transparent; border: 1px solid rgba(58,47,40,0.28); border-radius: 10px;">마치고 저장</button>
+</div>
+</sc-if>
+
+<sc-if value="{{isAway}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 40px; max-width: 560px;">
+<p style="margin: 0 0 14px; font-size: 14px; color: #6E5E52;">실제로는 이 화면이 보이지 않고 탭 제목만 바뀝니다. 다른 탭의 내용은 기록하지 않습니다.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+<button onClick="{{comeBack}}" style="height: 46px; padding: 0 22px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">돌아오기</button>
+<button onClick="{{skipLong}}" style="height: 40px; padding: 0 4px; font: 400 13px 'IBM Plex Sans KR', sans-serif; color: #6E5E52; background: transparent; border: none; text-decoration: underline; text-underline-offset: 3px;">시연: {{thresholdText}} 넘게 비우고 돌아오기</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{showReturn}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 40px; max-width: 520px; background: rgba(255,255,255,0.72); border-radius: 16px; padding: 22px 24px;">
+<p style="margin: 0; font-size: 17px; font-weight: 600;">다시 왔네요.</p>
+<p style="margin: 2px 0 16px; font-size: 14px; color: #6E5E52;">{{returnText}} 이어서 할 일을 한 줄 적어 두세요.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 8px;">
+<label for="next" style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0);">이어서 할 일</label>
+<input id="next" value="{{nextGoal}}" onChange="{{setNext}}" placeholder="3번 문제 다시 풀기" style="flex: 1 1 220px; height: 44px; box-sizing: border-box; border: 1px solid rgba(58,47,40,0.2); border-radius: 10px; padding: 0 14px; font: 400 15px 'IBM Plex Sans KR', sans-serif; color: #3A2F28; background: #FFFFFF; outline: none;">
+<button onClick="{{closeReturn}}" style="height: 44px; padding: 0 20px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">이어서</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isLong}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 40px; max-width: 540px; background: rgba(255,255,255,0.72); border-radius: 16px; padding: 22px 24px;">
+<p style="margin: 0; font-size: 17px; font-weight: 600;">{{longTitle}}</p>
+<p style="margin: 4px 0 18px; font-size: 14px; color: #6E5E52;">{{longBody}}</p>
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+<button onClick="{{trimAndEnd}}" style="height: 46px; padding: 0 20px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">{{trimLabel}}</button>
+<button onClick="{{keepAll}}" style="height: 46px; padding: 0 20px; font: 500 15px 'IBM Plex Sans KR', sans-serif; color: #3A2F28; background: transparent; border: 1px solid rgba(58,47,40,0.28); border-radius: 10px;">계속 공부하고 있었어요</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{isEnded}}" hint-placeholder-val="{{false}}">
+<div style="margin-top: 40px; max-width: 540px;">
+<p style="margin: 0; font-size: 17px; font-weight: 600;">저장했어요.</p>
+<p style="margin: 2px 0 18px; font-size: 14px; color: #6E5E52;">{{endedText}}</p>
+<button onClick="{{reset}}" style="height: 46px; padding: 0 22px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">새로 시작</button>
+</div>
+</sc-if>
+</section>
+
+<aside aria-label="이번 세션 기록" style="flex: 1 1 260px; min-width: 0; border-left: 1px solid rgba(58,47,40,0.12); padding-left: 28px; align-self: flex-start;">
+<h2 style="margin: 0 0 14px; font-size: 13px; font-weight: 500; color: #6E5E52;">이번 세션</h2>
+<sc-for list="{{log}}" as="row" hint-placeholder-count="3">
+<div style="display: flex; gap: 12px; align-items: baseline; padding: 5px 0; font-size: 14px;">
+<span style="font-variant-numeric: tabular-nums; color: #6E5E52; width: 40px; flex: none;">{{row.time}}</span>
+<span style="color: {{row.ink}};">{{row.text}}</span>
+</div>
+</sc-for>
+</aside>
+</main>
+
+<footer style="max-width: 1280px; width: 100%; margin: 0 auto; box-sizing: border-box; padding: 0 56px 36px;">
+<div style="border-top: 1px solid rgba(58,47,40,0.12); padding-top: 18px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 40px; font-size: 14px;">
+<div style="display: flex; align-items: center; gap: 12px; flex: 0 1 380px; min-width: 260px;">
+<label for="threshold" style="white-space: nowrap;">장시간 자리 비움</label>
+<input type="range" id="threshold" min="10" max="120" step="5" value="{{threshold}}" onChange="{{setThreshold}}" style="flex: 1; margin: 0;">
+<span style="width: 44px; text-align: right; font-variant-numeric: tabular-nums; font-weight: 500;">{{thresholdText}}</span>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<input type="checkbox" id="notify" checked="{{notify}}" onChange="{{toggleNotify}}">
+<label for="notify">탭을 떠나면 알림</label>
+</div>
+<div style="display: flex; align-items: center; gap: 8px;">
+<input type="checkbox" id="share" checked="{{share}}" onChange="{{toggleShare}}">
+<label for="share">그룹에 기록 공유</label>
+</div>
+<span style="margin-left: auto; font-size: 12px; color: #6E5E52;">자리 비움은 탭이 가려졌는지만 보는 참고 기록입니다.</span>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      mode: 'running', goal: '미적분 문제풀이', elapsed: 2832,
+      awayCount: 1, awayTotal: 240, awayNow: 0, lastAway: 0,
+      threshold: 30, notify: true, share: true, showReturn: false, nextGoal: '', endedText: '',
+      log: [
+        { time: '14:02', text: '시작', kind: 'focus' },
+        { time: '14:31', text: '자리 비움 4분', kind: 'away' },
+        { time: '14:35', text: '3번 문제부터', kind: 'focus' }
+      ]
+    };
+  }
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      const s = this.state;
+      if (s.mode === 'running') this.setState({ elapsed: s.elapsed + 1 });
+      else if (s.mode === 'away') this.setState({ elapsed: s.elapsed + 1, awayNow: s.awayNow + 1 });
+    }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  clock() { const d = new Date(); return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0'); }
+  addLog(text, kind) { return this.state.log.concat([{ time: this.clock(), text: text, kind: kind || 'focus' }]); }
+  hms(sec) { const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), x = sec % 60; return String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0') + ':' + String(x).padStart(2, '0'); }
+  words(sec) { const m = Math.round(sec / 60); if (m < 1) return sec + '초'; if (m < 60) return m + '분'; return Math.floor(m / 60) + '시간 ' + (m % 60) + '분'; }
+  renderVals() {
+    const s = this.state;
+    const dawn = 'linear-gradient(180deg, #ECF8F8 0%, #EEF1EC 38%, #EEE4E1 72%, #E9DCCF 100%)';
+    const look = {
+      idle: ['시작 전', '#F2ECE7', '#B2967D', '#6E5E52'],
+      running: ['집중', dawn, '#7FA39C', '#4F6B66'],
+      paused: ['일시정지 · 이 시간은 빼고 기록합니다', '#EBE1D7', '#B2967D', '#6E5E52'],
+      away: ['자리 비움', 'linear-gradient(180deg, #F1E7E2 0%, #EBD3C8 100%)', '#C98E78', '#7A4433'],
+      long: ['오래 자리를 비움', 'linear-gradient(180deg, #F1E7E2 0%, #EBD3C8 100%)', '#C98E78', '#7A4433'],
+      ended: ['저장됨', '#F2ECE7', '#B2967D', '#6E5E52']
+    }[s.mode];
+    const tab = { idle: 'FocusHub', running: this.hms(s.elapsed) + ' ' + s.goal, paused: '일시정지 · ' + s.goal, away: '자리 비움 ' + this.words(s.awayNow), long: 'FocusHub', ended: '저장됨' }[s.mode];
+    const leaveSec = s.elapsed - s.awayNow;
+    return {
+      bg: look[1], dot: look[2], stateInk: look[3], statusText: look[0],
+      goal: s.goal, timeText: this.hms(s.elapsed),
+      timeColor: s.mode === 'running' || s.mode === 'idle' || s.mode === 'ended' ? '#3A2F28' : '#9C8878',
+      tabTitle: tab,
+      awayLine: s.awayCount > 0 ? '자리 비움 ' + s.awayCount + '번, 모두 ' + this.words(s.awayTotal) : '자리 비움 없음',
+      isIdle: s.mode === 'idle', isRunning: s.mode === 'running', isPaused: s.mode === 'paused',
+      isAway: s.mode === 'away', isLong: s.mode === 'long', isEnded: s.mode === 'ended',
+      showReturn: s.mode === 'running' && s.showReturn,
+      returnText: this.words(s.lastAway) + ' 동안 자리를 비웠어요.',
+      nextGoal: s.nextGoal, endedText: s.endedText,
+      longTitle: this.words(s.awayNow) + ' 동안 자리를 비웠어요.',
+      longBody: '정해 둔 기준 ' + s.threshold + '분을 넘었습니다. 자리를 비우기 전까지인 ' + this.words(leaveSec) + '만 기록할까요?',
+      trimLabel: this.words(leaveSec) + '만 저장',
+      threshold: s.threshold, thresholdText: s.threshold + '분', notify: s.notify, share: s.share,
+      log: s.log.map((r) => ({ time: r.time, text: r.text, ink: r.kind === 'away' ? '#7A4433' : (r.kind === 'pause' ? '#6E5E52' : '#3A2F28') })),
+      setGoal: (e) => this.setState({ goal: e.target.value }),
+      setNext: (e) => this.setState({ nextGoal: e.target.value }),
+      start: () => this.setState({ mode: 'running', log: [{ time: this.clock(), text: '시작', kind: 'focus' }] }),
+      pause: () => this.setState({ mode: 'paused', showReturn: false, log: this.addLog('일시정지', 'pause') }),
+      resume: () => this.setState({ mode: 'running', log: this.addLog('다시 시작') }),
+      goAway: () => this.setState({ mode: 'away', awayNow: 0, showReturn: false, log: this.addLog('다른 탭으로 이동', 'away') }),
+      skipLong: () => this.setState({ awayNow: s.threshold * 60 + 420, elapsed: s.elapsed + s.threshold * 60 + 420 }),
+      comeBack: () => {
+        const base = { awayCount: s.awayCount + 1, awayTotal: s.awayTotal + s.awayNow, lastAway: s.awayNow, log: this.addLog('자리 비움 ' + this.words(s.awayNow), 'away') };
+        if (s.awayNow >= s.threshold * 60) this.setState(Object.assign(base, { mode: 'long' }));
+        else this.setState(Object.assign(base, { mode: 'running', showReturn: true, awayNow: 0 }));
+      },
+      closeReturn: () => this.setState({ showReturn: false, nextGoal: '', log: s.nextGoal ? this.addLog(s.nextGoal) : s.log }),
+      trimAndEnd: () => this.setState({ mode: 'ended', elapsed: leaveSec, awayNow: 0, endedText: '자리를 비우기 전까지인 ' + this.words(leaveSec) + '을 기록했습니다. 장시간 자리 비움으로 끝난 세션이라고 함께 남겨 두었어요.', log: this.addLog('저장 · 장시간 자리 비움', 'away') }),
+      keepAll: () => this.setState({ mode: 'running', awayNow: 0, log: this.addLog('계속 공부 중이었음') }),
+      end: () => this.setState({ mode: 'ended', showReturn: false, endedText: this.words(s.elapsed) + '을 기록했습니다.' + (s.share ? ' 가입한 그룹 3곳에도 같은 시간이 더해졌어요.' : ' 이번 세션은 그룹에 공유하지 않았습니다.'), log: this.addLog('저장') }),
+      reset: () => this.setState({ mode: 'idle', elapsed: 0, awayCount: 0, awayTotal: 0, awayNow: 0, goal: '', log: [] }),
+      setThreshold: (e) => this.setState({ threshold: Number(e.target.value) }),
+      toggleNotify: () => this.setState({ notify: !s.notify }),
+      toggleShare: () => this.setState({ share: !s.share })
+    };
+  }
+}
+</script>
+</body>
+</html>

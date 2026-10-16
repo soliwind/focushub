@@ -1,0 +1,40 @@
+:root {
+  /* 팔레트 원색: https://coolors.co/palette/ecf8f8-eee4e1-e7d8c9-e6beae-b2967d */
+  --sky: #ECF8F8;        /* 지금 공부 중 (그라데이션 윗부분에서만) */
+  --blush: #EEE4E1;
+  --sand: #E7D8C9;       /* 일시정지 */
+  --peach: #E6BEAE;      /* 자리 비움 */
+  --taupe: #B2967D;      /* 유일한 강조색: 공부한 시간 */
+
+  /* 바탕과 글자 */
+  --page: #F2ECE7;
+  --ink: #3A2F28;
+  --ink-2: #6E5E52;
+  --line: rgba(58, 47, 40, 0.18);
+  --line-soft: rgba(58, 47, 40, 0.08);
+
+  /* 버튼 (흰 글자 대비 확보용) */
+  --primary: #7A6250;
+
+  /* 상태 글자색 */
+  --live-ink: #4F6B66;   /* 공부 중 글자, 하늘색과 베이지를 잇는 회청록 */
+  --live-dot: #7FA39C;
+  --away-ink: #7A4433;
+  --away-dot: #C98E78;
+
+  /* 상태별 배경 */
+  --bg-focus: linear-gradient(180deg, #ECF8F8 0%, #EEF1EC 38%, #EEE4E1 72%, #E9DCCF 100%);
+  --bg-away: linear-gradient(180deg, #F1E7E2 0%, #EBD3C8 100%);
+  --bg-paused: #EBE1D7;
+  --bg-idle: #F2ECE7;
+
+  /* 기록 히트맵 농도 (taupe 한 가지 색의 농도 차이) */
+  --heat-0: #E6DDD5; --heat-1: #D6C6B9; --heat-2: #C6B09E; --heat-3: #B2967D; --heat-4: #8E7562;
+
+  --radius-area: 16px;
+  --radius-control: 10px;
+
+  /* 글꼴 */
+  --font-body: 'IBM Plex Sans KR', sans-serif;
+  --font-timer: 'Red Hat Mono', monospace;
+}

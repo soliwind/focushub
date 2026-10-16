@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>FocusHub 스터디그룹</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F2ECE7}
+a{color:#3A2F28}a:hover{color:#7A6250}
+button{cursor:pointer}
+</style>
+</helmet>
+<div style="width: 100%; min-height: 1060px; box-sizing: border-box; background: #F2ECE7; font-family: 'IBM Plex Sans KR', sans-serif; color: #3A2F28; font-size: 15px; line-height: 1.6; font-variant-numeric: tabular-nums;">
+
+<header style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px 36px; padding: 22px 56px; max-width: 1280px; margin: 0 auto; box-sizing: border-box;">
+<div style="font-weight: 600; font-size: 17px; letter-spacing: -0.2px;">FocusHub</div>
+<nav aria-label="주요 메뉴" style="display: flex; gap: 24px; font-size: 15px;">
+<a href="Main.dc.html" style="text-decoration: none; color: #6E5E52; padding-bottom: 2px;">타이머</a>
+<a href="Records.dc.html" style="text-decoration: none; color: #6E5E52; padding-bottom: 2px;">기록</a>
+<a href="Group.dc.html" aria-current="page" style="text-decoration: none; border-bottom: 2px solid #3A2F28; padding-bottom: 2px;">스터디그룹</a>
+</nav>
+</header>
+
+<main style="padding: 48px 56px 72px; max-width: 1280px; margin: 0 auto; box-sizing: border-box;">
+
+<nav aria-label="내 그룹" style="display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: 14px; margin-bottom: 18px;">
+<a href="#" aria-current="true" style="text-decoration: none; font-weight: 600;">새벽 정처기반</a>
+<a href="#" style="text-decoration: none; color: #6E5E52;">수학 스터디</a>
+<a href="#" style="text-decoration: none; color: #6E5E52;">영어 원서 읽기</a>
+<a href="#" style="text-decoration: none; color: #6E5E52; margin-left: auto;">새 그룹 만들기</a>
+</nav>
+
+<div style="display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 24px;">
+<h1 style="margin: 0; font-size: 40px; line-height: 1.3; font-weight: 500; letter-spacing: -1.2px;">새벽 정처기반</h1>
+<p style="margin: 0 0 6px; font-size: 14px; color: #6E5E52;">6명 · 승인 후 가입 · 내가 운영 중</p>
+<button style="margin: 0 0 2px auto; height: 40px; padding: 0 16px; font: 500 14px 'IBM Plex Sans KR', sans-serif; color: #3A2F28; background: transparent; border: 1px solid rgba(58,47,40,0.28); border-radius: 10px;">초대 링크 복사</button>
+</div>
+
+<section aria-label="이번 주 공동 목표" style="margin-top: 44px;">
+<p style="margin: 0; font-size: 22px; letter-spacing: -0.4px;">이번 주에 함께 <span style="font-weight: 600; color: #7A6250;">84시간</span>을 채웠어요. 목표 120시간까지 36시간 남았습니다.</p>
+<div role="img" aria-label="120시간 중 저장된 기록 77시간, 지금 공부 중 7시간" style="display: flex; height: 28px; margin-top: 18px; border-radius: 10px; overflow: hidden; background: rgba(58,47,40,0.08);">
+<div style="width: 64%; background: #B2967D;"></div>
+<div style="width: 6%; background: linear-gradient(90deg, #C9D6CE 0%, #ECF8F8 100%);"></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: 10px; font-size: 13px; color: #6E5E52;">
+<span>기록된 시간 77시간</span>
+<span style="color: #4F6B66;">지금 공부 중인 3명 7시간</span>
+<span style="margin-left: auto;">월요일 오전 5시에 다시 시작</span>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 56px 72px; margin-top: 72px;">
+
+<section aria-label="구성원의 이번 주" style="flex: 999 1 560px; min-width: 0;">
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; margin-bottom: 6px;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 500; color: #6E5E52;">구성원의 이번 주</h2>
+<span style="font-size: 13px; color: #6E5E52;">이름순</span>
+</div>
+<div style="display: grid; grid-template-columns: minmax(96px, 1.3fr) repeat(7, 28px) minmax(64px, 1fr); gap: 0 10px; align-items: center; font-size: 12px; color: #6E5E52; padding: 10px 0 8px; border-bottom: 1px solid rgba(58,47,40,0.18);">
+<span></span><span style="text-align: center;">월</span><span style="text-align: center;">화</span><span style="text-align: center;">수</span><span style="text-align: center;">목</span><span style="text-align: center; color: #3A2F28; font-weight: 600;">금</span><span style="text-align: center;">토</span><span style="text-align: center;">일</span><span style="text-align: right;">시간</span>
+</div>
+<sc-for list="{{members}}" as="m" hint-placeholder-count="6">
+<div style="display: grid; grid-template-columns: minmax(96px, 1.3fr) repeat(7, 28px) minmax(64px, 1fr); gap: 0 10px; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(58,47,40,0.08); font-size: 14px;">
+<span style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: {{m.weight}};">{{m.name}}</span>
+<sc-for list="{{m.days}}" as="d" hint-placeholder-count="7">
+<span style="display: flex; justify-content: center;"><span title="{{d.tip}}" style="width: 14px; height: 14px; border-radius: 50%; background: {{d.bg}};"></span></span>
+</sc-for>
+<span style="text-align: right;">{{m.total}}</span>
+</div>
+</sc-for>
+<div style="display: flex; flex-wrap: wrap; gap: 4px 18px; margin-top: 12px; font-size: 12px; color: #6E5E52;">
+<span style="display: inline-flex; align-items: center; gap: 6px;"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: #B2967D;"></span>공부한 날</span>
+<span style="display: inline-flex; align-items: center; gap: 6px;"><span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: linear-gradient(180deg, #ECF8F8, #A9BFB8);"></span>지금 공부 중</span>
+</div>
+</section>
+
+<aside style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 48px;">
+
+<section aria-label="조용한 동행방" style="background: linear-gradient(180deg, #ECF8F8 0%, #EEF1EC 45%, #EEE4E1 100%); border-radius: 16px; padding: 24px 24px 22px;">
+<h2 style="margin: 0; font-size: 13px; font-weight: 500; color: #4F6B66;">조용한 동행방</h2>
+<p style="margin: 2px 0 16px; font-size: 17px;">3명이 공부하고 있어요.</p>
+<ul style="list-style: none; margin: 0 0 18px; padding: 0; font-size: 14px;">
+<li style="display: flex; justify-content: space-between; padding: 4px 0;"><span>박도윤</span><span style="color: #4F6B66;">1시간 12분째</span></li>
+<li style="display: flex; justify-content: space-between; padding: 4px 0;"><span>최유나</span><span style="color: #4F6B66;">38분째</span></li>
+<li style="display: flex; justify-content: space-between; padding: 4px 0;"><span>나</span><span style="color: #4F6B66;">47분째</span></li>
+<li style="display: flex; justify-content: space-between; padding: 4px 0; color: #6E5E52;"><span>한지우</span><span>쉬는 중</span></li>
+</ul>
+<button style="width: 100%; height: 44px; font: 600 15px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">들어가기</button>
+</section>
+
+<section aria-label="이번 주 챌린지">
+<h2 style="margin: 0 0 4px; font-size: 13px; font-weight: 500; color: #6E5E52;">이번 주 챌린지</h2>
+<p style="margin: 0; font-size: 15px;">일주일에 5일 공부하기</p>
+<p style="margin: 2px 0 0; font-size: 14px; color: #6E5E52;">6명 중 2명 달성 · 나도 달성</p>
+</section>
+
+<section aria-label="가입 요청">
+<h2 style="margin: 0 0 4px; font-size: 13px; font-weight: 500; color: #6E5E52;">가입 요청 2건</h2>
+<sc-for list="{{requests}}" as="r" hint-placeholder-count="2">
+<div style="display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid rgba(58,47,40,0.08);">
+<div style="flex: 1; min-width: 0; line-height: 1.4;"><div style="font-size: 14px;">{{r.name}}</div><div style="font-size: 12px; color: #6E5E52;">{{r.when}}</div></div>
+<button style="height: 34px; padding: 0 10px; font: 500 13px 'IBM Plex Sans KR', sans-serif; color: #6E5E52; background: transparent; border: none;">거절</button>
+<button style="height: 34px; padding: 0 14px; font: 600 13px 'IBM Plex Sans KR', sans-serif; color: #FFFFFF; background: #7A6250; border: none; border-radius: 10px;">승인</button>
+</div>
+</sc-for>
+</section>
+</aside>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1060}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const raw = [
+      ['김하린', '1101100', '13:20', false],
+      ['나', '1111100', '16:40', true],
+      ['박도윤', '1111100', '18:05', true],
+      ['이서준', '0110000', '6:40', false],
+      ['최유나', '1011100', '11:15', true],
+      ['한지우', '1110000', '10:30', false]
+    ];
+    const names = ['월', '화', '수', '목', '금', '토', '일'];
+    const members = raw.map((r) => ({
+      name: r[0], total: r[2], weight: r[0] === '나' ? '600' : '400',
+      days: r[1].split('').map((c, d) => {
+        const live = d === 4 && r[3];
+        return {
+          bg: live ? 'linear-gradient(180deg, #ECF8F8, #A9BFB8)' : (c === '1' ? '#B2967D' : 'rgba(58,47,40,0.1)'),
+          tip: names[d] + (live ? ' · 지금 공부 중' : (c === '1' ? ' · 공부함' : ' · 쉼'))
+        };
+      })
+    }));
+    const requests = [
+      { name: '오세린', when: '오늘 오전 9:12' },
+      { name: '윤태호', when: '어제 오후 11:40' }
+    ];
+    return { members: members, requests: requests };
+  }
+}
+</script>
+</body>
+</html>
