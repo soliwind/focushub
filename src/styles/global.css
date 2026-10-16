@@ -29,8 +29,74 @@ button {
   font-family: inherit;
 }
 
+/* 화면 전체를 감싸는 틀. 타이머 상태에 따라 배경이 바뀐다. */
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-idle);
+  transition: background-color 0.4s;
+}
+
+body[data-timer='running'] .app {
+  background: var(--bg-focus);
+}
+
+body[data-timer='paused'] .app {
+  background: var(--bg-paused);
+}
+
+/* 버튼 */
+.btn {
+  height: 50px;
+  padding: 0 22px;
+  font: 500 15px var(--font-body);
+  border-radius: var(--radius-control);
+}
+
+.btn-primary {
+  padding: 0 26px;
+  font-weight: 600;
+  color: #fff;
+  background: var(--primary);
+  border: none;
+}
+
+.btn-secondary {
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line-control);
+}
+
+.btn-large {
+  height: 54px;
+  padding: 0 34px;
+  font-size: 16px;
+}
+
+.btn-medium {
+  height: 46px;
+  padding: 0 22px;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* 화면에는 안 보이고 화면 낭독기만 읽는 글자 */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
 /* 페이지 공통 본문 영역: 좌우 여백 56px, 최대 너비 1280px */
 .page {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 48px 56px 72px;

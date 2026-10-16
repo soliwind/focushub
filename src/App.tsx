@@ -7,13 +7,15 @@ import GroupPage from './pages/GroupPage'
 export default function App() {
   return (
     <BrowserRouter>
-      <Header />
-      {/* 주소에 따라 아래 화면 중 하나만 보여 준다 */}
-      <Routes>
-        <Route path="/" element={<TimerPage />} />
-        <Route path="/records" element={<RecordsPage />} />
-        <Route path="/group" element={<GroupPage />} />
-      </Routes>
+      <div className="app">
+        <Header />
+        {/* 주소에 따라 아래 화면 중 하나만 보여 준다 */}
+        <Routes>
+          <Route path="/" element={<TimerPage />} />
+          <Route path="/records" element={<RecordsPage />} />
+          <Route path="/group" element={<GroupPage />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   )
 }

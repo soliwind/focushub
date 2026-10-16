@@ -1,0 +1,38 @@
+.session-log {
+  flex: 1 1 260px;
+  min-width: 0;
+  align-self: flex-start;
+  border-left: 1px solid var(--line);
+  padding-left: 28px;
+}
+
+.session-log-title {
+  margin: 0 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.session-log-empty {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.session-log-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 5px 0;
+  font-size: 14px;
+}
+
+.session-log-time {
+  flex: none;
+  width: 40px;
+  color: var(--ink-2);
+}
+
+.session-log-row[data-type='pause'] .session-log-text {
+  color: var(--ink-2);
+}

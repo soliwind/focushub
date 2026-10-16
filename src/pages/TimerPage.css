@@ -1,0 +1,112 @@
+.timer-main {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 72px;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px 56px 40px;
+}
+
+.timer {
+  flex: 999 1 560px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상태 표시: 점 + 단어 */
+.timer-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  font-size: 14px;
+}
+
+.timer-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--taupe);
+}
+
+.timer-status-text {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+.timer-status-date {
+  color: var(--ink-2);
+}
+
+.timer[data-status='running'] .timer-status-dot {
+  background: var(--live-dot);
+}
+
+.timer[data-status='running'] .timer-status-text {
+  color: var(--live-ink);
+}
+
+/* 공부 내용 입력 */
+.timer-goal {
+  max-width: 600px;
+  padding: 14px 0 10px;
+  font: 500 26px var(--font-body);
+  letter-spacing: -0.4px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  outline: none;
+}
+
+.timer-goal:focus {
+  border-bottom-color: var(--ink-2);
+}
+
+.timer-goal::placeholder {
+  color: var(--ink-2);
+  opacity: 0.6;
+}
+
+/* 큰 타이머 숫자 */
+.timer-clock {
+  margin: 52px 0 18px -6px;
+  font-family: var(--font-timer);
+  font-weight: 300;
+  font-size: 148px;
+  line-height: 1;
+  letter-spacing: -7px;
+  color: var(--ink);
+}
+
+.timer[data-status='paused'] .timer-clock {
+  color: var(--ink-3);
+}
+
+.timer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin-top: 48px;
+}
+
+.timer-ended {
+  max-width: 540px;
+  margin-top: 40px;
+}
+
+.timer-ended-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.timer-ended-text {
+  margin: 2px 0 18px;
+  font-size: 14px;
+  color: var(--ink-2);
+}

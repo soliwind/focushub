@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px 36px;
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 22px 56px;
