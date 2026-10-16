@@ -33,6 +33,6 @@
   color: var(--ink-2);
 }
 
-.session-log-row[data-type='pause'] .session-log-text {
+.session-log-row[data-kind='pause'] .session-log-text {
   color: var(--ink-2);
 }

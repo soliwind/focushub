@@ -2,6 +2,11 @@
 // 1초마다 숫자를 더하지 않고, 시작·일시정지·재개·종료 "시각"을 events에 쌓아 두고
 // 필요할 때마다 그 시각들로 학습 시간을 계산한다.
 // (다른 탭에 있으면 브라우저가 setInterval을 느리게 돌려서, 더하는 방식은 시간이 틀어진다.)
+//
+// 상태는 공부 중(running)과 일시정지(paused) 두 가지뿐이다.
+// - 다른 탭으로 가면 바로 일시정지한다. 직접 누른 일시정지와 구분하지 않는다.
+// - 일시정지 시간은 학습 시간에서 뺀다.
+// - 일시정지가 기준 시간(longPauseMinutes)을 넘으면 쉬기 전까지로 자동 저장한다.
 
 export type TimerStatus = 'idle' | 'running' | 'paused' | 'ended'
 
@@ -12,10 +17,100 @@ export interface TimerEvent {
   at: number // 밀리초 단위 시각 (Date.now() 값)
 }
 
-const HOUR_MS = 60 * 60 * 1000
+// 쉬었다가 다시 시작할 때 적어 두는 "이어서 할 일" (복귀 루틴)
+export interface NextGoal {
+  at: number
+  text: string
+}
+
+export interface TimerState {
+  status: TimerStatus
+  events: TimerEvent[]
+  nextGoals: NextGoal[]
+  closeReason: null | 'long_pause'
+  // 화면 안내용: 이번 일시정지가 탭을 떠나서 생긴 것인지. 기록에는 남기지 않는다.
+  pausedByLeave: boolean
+}
+
+export const initialTimerState: TimerState = {
+  status: 'idle',
+  events: [],
+  nextGoals: [],
+  closeReason: null,
+  pausedByLeave: false,
+}
+
+export type TimerAction =
+  | { type: 'start'; at: number }
+  | { type: 'pause'; at: number; byLeave: boolean }
+  | { type: 'resume'; at: number; nextGoal: string }
+  | { type: 'end'; at: number }
+  | { type: 'autoEnd'; at: number }
+  | { type: 'reset' }
+
+const MINUTE_MS = 60 * 1000
+const HOUR_MS = 60 * MINUTE_MS
 
 // 하루는 오전 5시에 시작한다.
 export const DAY_START_HOUR = 5
+
+function addEvent(state: TimerState, type: TimerEventType, at: number): TimerEvent[] {
+  return [...state.events, { type, at }]
+}
+
+export function timerReducer(state: TimerState, action: TimerAction): TimerState {
+  switch (action.type) {
+    case 'start':
+      return { ...initialTimerState, status: 'running', events: [{ type: 'start', at: action.at }] }
+
+    case 'pause':
+      if (state.status !== 'running') return state
+      return {
+        ...state,
+        status: 'paused',
+        pausedByLeave: action.byLeave,
+        events: addEvent(state, 'pause', action.at),
+      }
+
+    case 'resume': {
+      if (state.status !== 'paused') return state
+      const nextGoals = action.nextGoal
+        ? [...state.nextGoals, { at: action.at, text: action.nextGoal }]
+        : state.nextGoals
+      return {
+        ...state,
+        status: 'running',
+        pausedByLeave: false,
+        nextGoals,
+        events: addEvent(state, 'resume', action.at),
+      }
+    }
+
+    case 'end':
+      if (state.status !== 'running' && state.status !== 'paused') return state
+      return { ...state, status: 'ended', events: addEvent(state, 'end', action.at) }
+
+    // 기준 시간 넘게 쉬어서 자동으로 저장한다. 일시정지 시간은 이미 빠져 있으므로
+    // 학습 시간은 쉬기 전까지가 된다.
+    case 'autoEnd':
+      if (state.status !== 'paused') return state
+      return {
+        ...state,
+        status: 'ended',
+        closeReason: 'long_pause',
+        events: addEvent(state, 'end', action.at),
+      }
+
+    case 'reset':
+      return initialTimerState
+  }
+}
+
+// 지금 일시정지 중이면 그 시작 시각, 아니면 null
+export function getPauseStartAt(events: TimerEvent[]): number | null {
+  const last = events[events.length - 1]
+  return last?.type === 'pause' ? last.at : null
+}
 
 // 시작·재개부터 일시정지·종료(또는 지금)까지의 구간만 더한다. 일시정지 구간은 빠진다.
 export function getStudyMs(events: TimerEvent[], now: number): number {
@@ -33,6 +128,26 @@ export function getStudyMs(events: TimerEvent[], now: number): number {
 
   if (runningSince !== null) {
     total += Math.max(0, now - runningSince)
+  }
+  return total
+}
+
+// 일시정지한 시간의 합. 화면에는 보여 주지 않고 데이터로만 저장한다 (sessions.pausedMs).
+export function getPausedMs(events: TimerEvent[], now: number): number {
+  let total = 0
+  let pausedSince: number | null = null
+
+  for (const event of events) {
+    if (event.type === 'pause') {
+      pausedSince = event.at
+    } else if (pausedSince !== null) {
+      total += event.at - pausedSince
+      pausedSince = null
+    }
+  }
+
+  if (pausedSince !== null) {
+    total += Math.max(0, now - pausedSince)
   }
   return total
 }
