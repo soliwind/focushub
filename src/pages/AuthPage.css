@@ -1,0 +1,63 @@
+/* 로그인·회원가입 화면 공통 */
+.auth {
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 72px;
+}
+
+.auth-title {
+  margin: 0 0 32px;
+  font-size: 32px;
+  line-height: 1.3;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.auth-input {
+  height: 46px;
+  padding: 0 14px;
+  font: 400 15px var(--font-body);
+  color: var(--ink);
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  outline: none;
+}
+
+.auth-input:focus {
+  border-color: var(--ink-2);
+}
+
+.auth-hint {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.auth-error {
+  margin: 0;
+  font-size: 14px;
+  color: var(--away-ink);
+}
+
+.auth-submit {
+  margin-top: 6px;
+}
+
+.auth-switch {
+  margin: 24px 0 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}

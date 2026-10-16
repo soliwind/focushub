@@ -1,0 +1,51 @@
+.landing {
+  padding-top: 96px;
+}
+
+.landing-title {
+  max-width: 760px;
+  margin: 0;
+  font-size: 48px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -1.4px;
+}
+
+.landing-lead {
+  max-width: 600px;
+  margin: 20px 0 0;
+  font-size: 17px;
+  color: var(--ink-2);
+}
+
+.landing-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 40px;
+}
+
+/* 카드 대신 위쪽 구분선으로 영역을 나눈다 */
+.landing-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 40px 48px;
+  margin-top: 112px;
+}
+
+.landing-feature {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.landing-feature-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.landing-feature-body {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}

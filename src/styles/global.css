@@ -79,6 +79,27 @@ body[data-timer='paused'] .app {
   padding: 0 22px;
 }
 
+.btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* 링크를 버튼 모양으로 보여 줄 때 */
+.btn-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.btn-primary.btn-link,
+.btn-primary.btn-link:hover {
+  color: #fff;
+}
+
+.btn-secondary.btn-link:hover {
+  color: var(--ink);
+}
+
 .btn:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 2px;

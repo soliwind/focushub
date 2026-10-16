@@ -1,21 +1,74 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import GuestOnly from './components/GuestOnly'
 import Header from './components/Header'
-import TimerPage from './pages/TimerPage'
-import RecordsPage from './pages/RecordsPage'
+import RequireAuth from './components/RequireAuth'
+import { AuthProvider } from './lib/auth'
+import { useAuth } from './lib/authContext'
 import GroupPage from './pages/GroupPage'
+import LandingPage from './pages/LandingPage'
+import LoginPage from './pages/LoginPage'
+import RecordsPage from './pages/RecordsPage'
+import SignupPage from './pages/SignupPage'
+import TimerPage from './pages/TimerPage'
+
+function AppRoutes() {
+  const { user, loading } = useAuth()
+
+  // 로그인 여부를 확인하는 아주 짧은 동안은 아무것도 그리지 않는다. (랜딩이 깜빡 보이는 것을 막는다)
+  if (loading) return null
+
+  return (
+    <>
+      <Header />
+      {/* 주소에 따라 아래 화면 중 하나만 보여 준다 */}
+      <Routes>
+        <Route path="/" element={user ? <TimerPage /> : <LandingPage />} />
+        <Route
+          path="/records"
+          element={
+            <RequireAuth>
+              <RecordsPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group"
+          element={
+            <RequireAuth>
+              <GroupPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/login"
+          element={
+            <GuestOnly>
+              <LoginPage />
+            </GuestOnly>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <GuestOnly>
+              <SignupPage />
+            </GuestOnly>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </>
+  )
+}
 
 export default function App() {
   return (
     <BrowserRouter>
-      <div className="app">
-        <Header />
-        {/* 주소에 따라 아래 화면 중 하나만 보여 준다 */}
-        <Routes>
-          <Route path="/" element={<TimerPage />} />
-          <Route path="/records" element={<RecordsPage />} />
-          <Route path="/group" element={<GroupPage />} />
-        </Routes>
-      </div>
+      <AuthProvider>
+        <div className="app">
+          <AppRoutes />
+        </div>
+      </AuthProvider>
     </BrowserRouter>
   )
 }

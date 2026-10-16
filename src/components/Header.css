@@ -33,3 +33,31 @@
   color: var(--ink);
   border-bottom-color: var(--ink);
 }
+
+.header-logo {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: auto;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.header-logout {
+  padding: 0;
+  font: inherit;
+  color: var(--ink-2);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.header-logout:hover {
+  color: var(--ink);
+}
