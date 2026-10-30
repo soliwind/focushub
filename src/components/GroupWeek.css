@@ -74,17 +74,27 @@
   background: var(--taupe);
 }
 
+.group-week-dot[data-studied='true'][data-today='true'] {
+  background: var(--dawn-dot);
+}
+
 .group-week-total {
   text-align: right;
 }
 
 .group-week-legend {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
   margin-top: 12px;
   font-size: 12px;
   color: var(--ink-2);
+}
+
+.group-week-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .group-week-swatch {
@@ -92,4 +102,8 @@
   height: 10px;
   border-radius: 50%;
   background: var(--taupe);
+}
+
+.group-week-swatch[data-today='true'] {
+  background: var(--dawn-dot);
 }

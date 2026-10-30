@@ -41,7 +41,11 @@
   border-radius: 4px 4px 0 0;
 }
 
-.daily-bars-bar[data-empty='true'] {
+.daily-bars-col[data-today='true'] .daily-bars-bar {
+  background: var(--dawn-column);
+}
+
+.daily-bars .daily-bars-col .daily-bars-bar[data-empty='true'] {
   background: rgba(58, 47, 40, 0.12);
 }
 

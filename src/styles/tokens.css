@@ -1,10 +1,10 @@
 :root {
   /* 팔레트 원색: https://coolors.co/palette/ecf8f8-eee4e1-e7d8c9-e6beae-b2967d */
-  --sky: #ECF8F8;        /* 지금 공부 중 (그라데이션 윗부분에서만) */
+  --sky: #ECF8F8;        /* 지금 공부 중, 오늘·진행 중 (그라데이션 끝부분에서만) */
   --blush: #EEE4E1;
   --sand: #E7D8C9;       /* 일시정지 */
   --peach: #E6BEAE;      /* 자리 비움 */
-  --taupe: #B2967D;      /* 유일한 강조색: 공부한 시간 */
+  --taupe: #B2967D;      /* 공부한 시간. 단색 강조는 이 색만 쓴다 */
 
   /* 바탕과 글자 */
   --page: #F2ECE7;
@@ -32,6 +32,11 @@
 
   /* 기록 히트맵 농도 (taupe 한 가지 색의 농도 차이) */
   --heat-0: #E6DDD5; --heat-1: #D6C6B9; --heat-2: #C6B09E; --heat-3: #B2967D; --heat-4: #8E7562;
+
+  /* 포인트 그라데이션: 하늘색에서 토프로 이어지는 새벽 색 (진행 바, 오늘 표시) */
+  --dawn-bar: linear-gradient(90deg, #B2967D 0%, #C9D6CE 80%, #ECF8F8 100%);
+  --dawn-column: linear-gradient(180deg, #ECF8F8 0%, #C9D6CE 22%, #B2967D 70%);
+  --dawn-dot: linear-gradient(180deg, #ECF8F8, #A9BFB8);
 
   --radius-area: 16px;
   --radius-control: 10px;

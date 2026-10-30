@@ -53,6 +53,7 @@ export default function GroupWeek({ days, todayKey, members, contributions, myUi
                 <span
                   className="group-week-dot"
                   data-studied={studied}
+                  data-today={day === todayKey}
                   title={`${weekdayName(day)} · ${studied ? '공부함' : '쉼'}`}
                 />
               </span>
@@ -64,8 +65,14 @@ export default function GroupWeek({ days, todayKey, members, contributions, myUi
         </div>
       ))}
       <div className="group-week-legend">
-        <span className="group-week-swatch" aria-hidden="true" />
-        공부한 날
+        <span>
+          <span className="group-week-swatch" aria-hidden="true" />
+          공부한 날
+        </span>
+        <span>
+          <span className="group-week-swatch" data-today="true" aria-hidden="true" />
+          오늘 공부함
+        </span>
       </div>
     </section>
   )

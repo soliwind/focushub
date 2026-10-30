@@ -35,7 +35,8 @@
 
 .landing-feature {
   padding-top: 18px;
-  border-top: 1px solid var(--line);
+  border-top: 2px solid transparent;
+  border-image: var(--dawn-bar) 1;
 }
 
 .landing-feature-title {
