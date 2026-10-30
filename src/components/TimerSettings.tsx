@@ -1,10 +1,7 @@
+import type { UserSettings } from '../lib/userProfile'
 import './TimerSettings.css'
 
-export interface TimerSettingsValue {
-  longPauseMinutes: number // 이 시간 넘게 쉬면 자동 저장 (10~120분)
-  notifyOnLeave: boolean
-  shareToGroups: boolean
-}
+export type TimerSettingsValue = UserSettings
 
 interface Props {
   value: TimerSettingsValue

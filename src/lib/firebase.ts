@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app'
 import { getAuth, type Auth } from 'firebase/auth'
+import { getFirestore, type Firestore } from 'firebase/firestore'
 
 // Firebase 설정 값은 .env.local에서 읽는다. (VITE_로 시작해야 브라우저 코드에서 읽을 수 있다.)
 const firebaseConfig = {
@@ -19,4 +20,7 @@ export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseCon
 export const isDevWithoutFirebase = import.meta.env.DEV && !isFirebaseConfigured
 
 // 설정 값이 없으면 Firebase를 켜지 않는다. (켜면 바로 오류가 나서 화면 전체가 멈춘다.)
-export const auth: Auth | null = isFirebaseConfigured ? getAuth(initializeApp(firebaseConfig)) : null
+const app = isFirebaseConfigured ? initializeApp(firebaseConfig) : null
+
+export const auth: Auth | null = app ? getAuth(app) : null
+export const db: Firestore | null = app ? getFirestore(app) : null

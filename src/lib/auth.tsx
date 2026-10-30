@@ -9,6 +9,7 @@ import {
 } from 'firebase/auth'
 import { AuthContext, type AppUser, type AuthValue } from './authContext'
 import { auth, isDevWithoutFirebase } from './firebase'
+import { ensureUserProfile, saveDisplayName } from './userProfile'
 
 function toAppUser(user: User): AppUser {
   return { uid: user.uid, displayName: user.displayName ?? '', email: user.email ?? '' }
@@ -32,6 +33,10 @@ function FirebaseAuthProvider({ children }: { children: ReactNode }) {
     return onAuthStateChanged(auth, (nextUser) => {
       setUser(nextUser ? toAppUser(nextUser) : null)
       setLoading(false)
+      // Firestore에 내 정보 문서(users/{uid})를 만들거나 마지막 로그인 시각을 바꾼다.
+      if (nextUser) {
+        ensureUserProfile(toAppUser(nextUser)).catch((error) => console.error('내 정보를 저장하지 못했어요.', error))
+      }
     })
   }, [])
 
@@ -42,6 +47,7 @@ function FirebaseAuthProvider({ children }: { children: ReactNode }) {
     signUp: async (name, email, password) => {
       const credential = await createUserWithEmailAndPassword(requireAuth(), email, password)
       await updateProfile(credential.user, { displayName: name })
+      await saveDisplayName(credential.user.uid, name)
       // 가입 직후에는 이름이 비어 있는 채로 로그인 상태가 먼저 바뀐다. 이름을 넣은 정보로 다시 바꾼다.
       setUser(toAppUser(credential.user))
     },

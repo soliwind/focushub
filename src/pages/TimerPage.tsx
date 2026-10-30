@@ -1,8 +1,9 @@
 import { useEffect, useReducer, useState } from 'react'
 import SessionLog from '../components/SessionLog'
 import { PauseNotice } from '../components/TimerNotices'
-import TimerSettings, { type TimerSettingsValue } from '../components/TimerSettings'
+import TimerSettings from '../components/TimerSettings'
 import { useNow } from '../hooks/useNow'
+import { useUserSettings } from '../hooks/useUserSettings'
 import { formatClock, formatDateLong, formatDuration, withObjectParticle } from '../lib/format'
 import {
   getPauseStartAt,
@@ -26,11 +27,7 @@ const STATUS_TEXT: Record<TimerStatus, string> = {
 export default function TimerPage() {
   const [timer, dispatch] = useReducer(timerReducer, initialTimerState)
   const [goal, setGoal] = useState('')
-  const [settings, setSettings] = useState<TimerSettingsValue>({
-    longPauseMinutes: 30,
-    notifyOnLeave: true,
-    shareToGroups: true,
-  })
+  const [settings, setSettings] = useUserSettings()
 
   const { status, events } = timer
 
