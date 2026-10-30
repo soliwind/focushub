@@ -14,6 +14,8 @@ body {
   font-size: 15px;
   line-height: 1.6;
   font-variant-numeric: tabular-nums;
+  word-break: keep-all; /* 한국어 단어가 중간에서 끊기지 않게 */
+  overflow-wrap: break-word;
 }
 
 a {

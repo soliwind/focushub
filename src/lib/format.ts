@@ -20,6 +20,12 @@ export function formatDuration(ms: number): string {
   return m ? `${h}시간 ${m}분` : `${h}시간`
 }
 
+// 짧은 시간 표기: 1:28 (1시간 28분)
+export function formatHourMinute(ms: number): string {
+  const totalMin = Math.round(ms / 60000)
+  return `${Math.floor(totalMin / 60)}:${pad(totalMin % 60)}`
+}
+
 // formatDuration 뒤에 붙는 조사: "47분을", "30초를"
 export function withObjectParticle(text: string): string {
   return text.endsWith('초') ? `${text}를` : `${text}을`

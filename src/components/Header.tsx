@@ -3,7 +3,7 @@ import { useAuth } from '../lib/authContext'
 import './Header.css'
 
 export default function Header() {
-  const { user, logOut } = useAuth()
+  const { user, isDevUser, logOut } = useAuth()
 
   return (
     <header className="header">
@@ -21,6 +21,7 @@ export default function Header() {
             <NavLink to="/group">스터디그룹</NavLink>
           </nav>
           <div className="header-user">
+            {isDevUser && <span className="header-dev">개발 모드 · 예시 데이터</span>}
             <span>{user.displayName || user.email}</span>
             <button type="button" className="header-logout" onClick={logOut}>
               로그아웃

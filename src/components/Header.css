@@ -61,3 +61,10 @@
 .header-logout:hover {
   color: var(--ink);
 }
+
+.header-dev {
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 1px dashed var(--line-control);
+  border-radius: var(--radius-control);
+}

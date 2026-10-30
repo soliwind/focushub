@@ -1,0 +1,67 @@
+.study-heatmap {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.study-heatmap-heading {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.study-heatmap-streak {
+  margin: 0 0 18px;
+  font-size: 15px;
+}
+
+.study-heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 4px;
+  max-width: 360px;
+}
+
+.study-heatmap-col {
+  display: grid;
+  gap: 4px;
+}
+
+.study-heatmap-cell {
+  aspect-ratio: 1;
+  border-radius: 4px;
+}
+
+.study-heatmap-cell[data-future='true'] {
+  background: transparent;
+}
+
+.study-heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.study-heatmap-legend span:first-child {
+  margin-right: 4px;
+}
+
+.study-heatmap-legend span:last-child {
+  margin-left: 4px;
+}
+
+.study-heatmap-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* 농도는 taupe 한 가지 색의 진하기 차이 */
+.study-heatmap [data-level='0'] { background: var(--heat-0); }
+.study-heatmap [data-level='1'] { background: var(--heat-1); }
+.study-heatmap [data-level='2'] { background: var(--heat-2); }
+.study-heatmap [data-level='3'] { background: var(--heat-3); }
+.study-heatmap [data-level='4'] { background: var(--heat-4); }

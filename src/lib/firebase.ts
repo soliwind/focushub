@@ -14,5 +14,9 @@ const firebaseConfig = {
 // .env.local을 아직 만들지 않았으면 false. 화면에서 안내 문구를 보여 줄 때 쓴다.
 export const isFirebaseConfigured = Boolean(firebaseConfig.apiKey && firebaseConfig.projectId)
 
+// npm run dev인데 설정 값이 없으면, Firebase 대신 개발용 사용자와 예시 데이터로 화면을 본다.
+// (import.meta.env.DEV는 npm run dev일 때만 true다. 배포용 빌드에서는 항상 false.)
+export const isDevWithoutFirebase = import.meta.env.DEV && !isFirebaseConfigured
+
 // 설정 값이 없으면 Firebase를 켜지 않는다. (켜면 바로 오류가 나서 화면 전체가 멈춘다.)
 export const auth: Auth | null = isFirebaseConfigured ? getAuth(initializeApp(firebaseConfig)) : null

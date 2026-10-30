@@ -7,19 +7,30 @@ import {
   updateProfile,
   type User,
 } from 'firebase/auth'
-import { AuthContext, type AuthValue } from './authContext'
-import { auth } from './firebase'
+import { AuthContext, type AppUser, type AuthValue } from './authContext'
+import { auth, isDevWithoutFirebase } from './firebase'
+
+function toAppUser(user: User): AppUser {
+  return { uid: user.uid, displayName: user.displayName ?? '', email: user.email ?? '' }
+}
+
+// Firebase 없이 개발할 때 쓰는 가짜 사용자 (npm run dev에서 .env.local이 없을 때만)
+const DEV_USER: AppUser = { uid: 'dev-user', displayName: '개발용 사용자', email: 'dev@focushub.local' }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
+  if (isDevWithoutFirebase) return <DevAuthProvider>{children}</DevAuthProvider>
+  return <FirebaseAuthProvider>{children}</FirebaseAuthProvider>
+}
+
+function FirebaseAuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<AppUser | null>(null)
   const [loading, setLoading] = useState(auth !== null)
-  const [, setProfileVersion] = useState(0)
 
   // Firebase가 로그인 상태가 바뀔 때마다 알려 준다. 새로고침해도 로그인이 유지된다.
   useEffect(() => {
     if (!auth) return
     return onAuthStateChanged(auth, (nextUser) => {
-      setUser(nextUser)
+      setUser(nextUser ? toAppUser(nextUser) : null)
       setLoading(false)
     })
   }, [])
@@ -27,16 +38,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const value: AuthValue = {
     user,
     loading,
+    isDevUser: false,
     signUp: async (name, email, password) => {
       const credential = await createUserWithEmailAndPassword(requireAuth(), email, password)
       await updateProfile(credential.user, { displayName: name })
-      // 가입 직후에는 이름이 비어 있는 채로 로그인 상태가 먼저 바뀐다. 이름이 바로 보이도록 다시 그린다.
-      setProfileVersion((v) => v + 1)
+      // 가입 직후에는 이름이 비어 있는 채로 로그인 상태가 먼저 바뀐다. 이름을 넣은 정보로 다시 바꾼다.
+      setUser(toAppUser(credential.user))
     },
     logIn: async (email, password) => {
       await signInWithEmailAndPassword(requireAuth(), email, password)
     },
     logOut: () => signOut(requireAuth()),
+  }
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+// 처음부터 개발용 사용자로 로그인된 상태. 로그인·회원가입은 어떤 값을 넣어도 통과한다.
+function DevAuthProvider({ children }: { children: ReactNode }) {
+  const [user, setUser] = useState<AppUser | null>(DEV_USER)
+
+  const value: AuthValue = {
+    user,
+    loading: false,
+    isDevUser: true,
+    signUp: async (name, email) => setUser({ ...DEV_USER, displayName: name || DEV_USER.displayName, email }),
+    logIn: async (email) => setUser({ ...DEV_USER, email }),
+    logOut: async () => setUser(null),
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

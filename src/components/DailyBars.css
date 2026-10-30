@@ -1,0 +1,67 @@
+.daily-bars {
+  margin-top: 56px;
+}
+
+.daily-bars-plot {
+  display: grid;
+  gap: 12px;
+  align-items: end;
+  height: 240px;
+  border-bottom: 1px solid var(--line);
+}
+
+.daily-bars[data-compact='true'] .daily-bars-plot,
+.daily-bars[data-compact='true'] .daily-bars-labels {
+  gap: 4px;
+}
+
+.daily-bars-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.daily-bars-value {
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.daily-bars-col[data-today='true'] .daily-bars-value {
+  color: var(--ink);
+}
+
+.daily-bars-bar {
+  background: var(--taupe);
+  border-radius: var(--radius-control) var(--radius-control) 0 0;
+}
+
+.daily-bars[data-compact='true'] .daily-bars-bar {
+  border-radius: 4px 4px 0 0;
+}
+
+.daily-bars-bar[data-empty='true'] {
+  background: rgba(58, 47, 40, 0.12);
+}
+
+.daily-bars-labels {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.daily-bars[data-compact='true'] .daily-bars-labels {
+  font-size: 12px;
+  text-align: center;
+}
+
+.daily-bars-label[data-today='true'] {
+  font-weight: 600;
+}
+
+.daily-bars-weekday {
+  color: var(--ink-2);
+}
