@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import FirebaseSetupNotice from '../components/FirebaseSetupNotice'
 import { useAuth } from '../lib/authContext'
 import { getAuthErrorMessage } from '../lib/authErrors'
@@ -7,6 +7,7 @@ import './AuthPage.css'
 
 export default function LoginPage() {
   const { logIn } = useAuth()
+  const location = useLocation()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -63,7 +64,9 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="auth-switch">
-          처음이라면 <Link to="/signup">회원가입</Link>
+          처음이라면 <Link to="/signup" state={location.state}>
+            회원가입
+          </Link>
         </p>
       </div>
     </main>

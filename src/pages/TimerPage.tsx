@@ -23,6 +23,7 @@ export default function TimerPage() {
     restoring,
     message,
     saveFailed,
+    sharedGroupCount,
     retrySave,
     setGoal,
     start,
@@ -51,7 +52,11 @@ export default function TimerPage() {
     (timer.closeReason === 'long_pause'
       ? `${settings.longPauseMinutes}분 넘게 쉬어서, 쉬기 전까지인 ${recordedText} 기록해 두었어요.`
       : `${recordedText} 기록했습니다.`) +
-    (settings.shareToGroups ? '' : ' 이번 세션은 그룹에 공유하지 않았습니다.')
+    (settings.shareToGroups
+      ? sharedGroupCount > 0
+        ? ` 가입한 그룹 ${sharedGroupCount}곳에도 같은 시간이 더해졌어요.`
+        : ''
+      : ' 이번 세션은 그룹에 공유하지 않았습니다.')
 
   return (
     <>
@@ -127,7 +132,7 @@ export default function TimerPage() {
         <SessionLog events={events} nextGoals={timer.nextGoals} closeReason={timer.closeReason} />
       </main>
 
-      <TimerSettings value={settings} onChange={setSettings} />
+      <TimerSettings value={settings} onChange={setSettings} shareLocked={status === 'ended'} />
     </>
   )
 }

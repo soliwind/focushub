@@ -6,8 +6,10 @@ import TimerSessionProvider from './components/TimerSessionProvider'
 import { AuthProvider } from './lib/auth'
 import { useAuth } from './lib/authContext'
 import GroupPage from './pages/GroupPage'
+import JoinPage from './pages/JoinPage'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
+import NewGroupPage from './pages/NewGroupPage'
 import RecordsPage from './pages/RecordsPage'
 import SignupPage from './pages/SignupPage'
 import TimerPage from './pages/TimerPage'
@@ -37,6 +39,30 @@ function AppRoutes() {
           element={
             <RequireAuth>
               <GroupPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group/new"
+          element={
+            <RequireAuth>
+              <NewGroupPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group/:groupId"
+          element={
+            <RequireAuth>
+              <GroupPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/join/:groupId"
+          element={
+            <RequireAuth>
+              <JoinPage />
             </RequireAuth>
           }
         />

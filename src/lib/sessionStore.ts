@@ -9,13 +9,14 @@ import {
   getDocs,
   onSnapshot,
   query,
-  setDoc,
   updateDoc,
   where,
+  writeBatch,
   type DocumentData,
 } from 'firebase/firestore'
 import { getDayKey, getWeekKey } from './dates'
 import { db } from './firebase'
+import { getMyGroupIds } from './groupStore'
 import type { SessionStatus, StudySession } from './sessions'
 import { getPausedMs, getStudyMs, initialTimerState, type TimerState } from './timer'
 
@@ -134,9 +135,34 @@ export function newSessionId(): string {
   return db ? doc(collection(db, 'sessions')).id : `local-${crypto.randomUUID()}`
 }
 
-export async function saveSessionRemote(session: StudySession): Promise<void> {
-  if (!db) return
-  await setDoc(doc(db, 'sessions', session.id), toFirestore(session))
+// 세션을 저장한다. 그룹 공유가 켜진 세션이 끝나면, 지금 가입한 모든 그룹의 집계도 한 번에 저장한다.
+// 집계 문서 ID가 세션 ID라서 같은 저장이 반복되어도 그룹 시간은 한 번만 더해진다.
+// 집계를 더한 그룹 수를 돌려준다.
+export async function saveSessionRemote(session: StudySession, displayName: string): Promise<number> {
+  if (!db) return 0
+  const batch = writeBatch(db)
+  batch.set(doc(db, 'sessions', session.id), toFirestore(session))
+
+  let groupCount = 0
+  if (session.shareToGroups && !isOpenSession(session) && session.studyMs > 0) {
+    const groupIds = await getMyGroupIds(session.uid)
+    for (const groupId of groupIds) {
+      batch.set(doc(db, 'groups', groupId, 'contributions', session.id), {
+        groupId,
+        sessionId: session.id,
+        uid: session.uid,
+        displayName,
+        studyMs: session.studyMs,
+        dayKey: session.dayKey,
+        weekKey: session.weekKey,
+        createdAt: ts(session.endedAt ?? session.updatedAt),
+      })
+    }
+    groupCount = groupIds.length
+  }
+
+  await batch.commit()
+  return groupCount
 }
 
 export async function sendHeartbeat(sessionId: string, at: number): Promise<void> {

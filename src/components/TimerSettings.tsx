@@ -6,9 +6,10 @@ export type TimerSettingsValue = UserSettings
 interface Props {
   value: TimerSettingsValue
   onChange: (value: TimerSettingsValue) => void
+  shareLocked: boolean // 이미 저장한 세션의 공유 여부는 바꿀 수 없다
 }
 
-export default function TimerSettings({ value, onChange }: Props) {
+export default function TimerSettings({ value, onChange, shareLocked }: Props) {
   return (
     <footer className="timer-settings">
       <div className="timer-settings-inner">
@@ -39,6 +40,7 @@ export default function TimerSettings({ value, onChange }: Props) {
             type="checkbox"
             id="share"
             checked={value.shareToGroups}
+            disabled={shareLocked}
             onChange={(e) => onChange({ ...value, shareToGroups: e.target.checked })}
           />
           <label htmlFor="share">그룹에 기록 공유</label>

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useAuth } from '../lib/authContext'
 import type { StudySession } from '../lib/sessions'
 import {
   clearSessionLocal,
@@ -42,11 +43,14 @@ function withTimeout<T>(promise: Promise<T>, fallback: T): Promise<T> {
 }
 
 export function useTimerSession(uid: string): TimerSessionValue {
+  const { user } = useAuth()
+  const displayName = user?.displayName || user?.email || ''
   const [settings, setSettings, settingsReady] = useUserSettings()
   const [timer, setTimer] = useState<TimerState>(initialTimerState)
   const [restoring, setRestoring] = useState(true)
   const [message, setMessage] = useState('')
   const [saveFailed, setSaveFailed] = useState(false)
+  const [sharedGroupCount, setSharedGroupCount] = useState(0)
   const [saveAttempt, setSaveAttempt] = useState(0)
 
   const timerRef = useRef(timer) // 이벤트 처리 중에 항상 최신 상태를 읽기 위한 값
@@ -89,7 +93,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
       try {
         // 끝난 세션이 Firestore에 저장되기 전에 탭이 닫혔다면 지금 마저 저장한다.
         if (local && !openLocal) {
-          await saveSessionRemote(local)
+          await saveSessionRemote(local, displayName)
           clearSessionLocal(uid)
         }
         const remoteOpen = await getOpenSessionRemote(uid)
@@ -115,7 +119,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
     return () => {
       cancelled = true
     }
-  }, [uid, applyState])
+  }, [uid, displayName, applyState])
 
   // 같은 브라우저의 다른 탭에서 바뀐 세션을 따라간다. (storage 이벤트는 다른 탭에서만 발생한다)
   useEffect(() => {
@@ -177,9 +181,10 @@ export function useTimerSession(uid: string): TimerSessionValue {
     const save = () => {
       savedKeyRef.current = key
       savedSignatureRef.current = signature
-      saveSessionRemote(session)
-        .then(() => {
+      saveSessionRemote(session, displayName)
+        .then((groupCount) => {
           setSaveFailed(false)
+          setSharedGroupCount(groupCount)
           if (!isOpenSession(session)) clearSessionLocal(uid)
         })
         .catch((error) => {
@@ -194,7 +199,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
     }
     const id = window.setTimeout(save, GOAL_SAVE_DELAY_MS)
     return () => window.clearTimeout(id)
-  }, [uid, restoring, status, updatedAt, sessionId, settings.shareToGroups, saveAttempt])
+  }, [uid, displayName, restoring, status, updatedAt, sessionId, settings.shareToGroups, saveAttempt])
 
   // 화면이 열려 있다는 신호. 탭을 닫아 버린 세션을 나중에 알아보는 데 쓴다.
   useEffect(() => {
@@ -279,6 +284,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
     restoring,
     message,
     saveFailed,
+    sharedGroupCount,
     retrySave: () => setSaveAttempt((n) => n + 1),
     setGoal: (goal) => act({ type: 'setGoal', at: Date.now(), goal }),
     start,
@@ -288,6 +294,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
     reset: () => {
       setMessage('')
       setSaveFailed(false)
+      setSharedGroupCount(0)
       setSaveAttempt(0)
       act({ type: 'reset' })
     },

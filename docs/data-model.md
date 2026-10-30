@@ -20,7 +20,8 @@
 
 ## groups/{groupId}
 - name, description, joinMode: "open" | "approval", ownerUid, createdAt
-- weeklyGoalHours (공동 목표)
+- memberUids: [uid] (지금 가입한 구성원 목록. "내 그룹" 조회와 보안 규칙에 쓴다. 가입·승인·탈퇴 때 members와 함께 batch로 바꾼다)
+- weeklyGoalHours (공동 목표, 없으면 null)
 - inviteCode
 
 ## groups/{groupId}/members/{uid}
@@ -29,13 +30,14 @@
 ## groups/{groupId}/joinRequests/{uid}
 - displayName, requestedAt, status: "pending" | "approved" | "rejected", handledAt
 
-## contributions/{groupId}_{sessionId}
-- 문서 ID를 `그룹ID_세션ID`로 고정해서 같은 세션이 두 번 더해지지 않게 한다.
+## groups/{groupId}/contributions/{sessionId}
+- 문서 ID를 세션 ID로 고정해서 같은 세션이 같은 그룹에 두 번 더해지지 않게 한다.
+- 그룹 아래에 두어 보안 규칙에서 "그 그룹 구성원만 읽기"를 경로로 확실하게 막는다.
 - groupId, sessionId, uid, displayName, studyMs, dayKey, weekKey, createdAt
 
 ## 세션 저장 흐름
 1. 세션 종료 시 `studyMs`를 계산해 sessions 문서를 completed로 바꾼다. 오래 쉬어 자동 저장되면 auto_closed로 바꾼다. 둘 다 개인 통계와 그룹 집계에 들어간다.
-2. `shareToGroups`가 켜져 있으면, 그 시점에 status가 "active"인 모든 그룹 멤버십을 찾는다.
+2. `shareToGroups`가 켜져 있으면, 그 시점에 `memberUids`에 내가 들어 있는 모든 그룹을 찾는다.
 3. 각 그룹에 contributions 문서를 `set`으로 쓴다(같은 ID면 덮어쓰므로 중복이 생기지 않는다).
 4. 1~3을 Firestore batch로 한 번에 처리한다.
 

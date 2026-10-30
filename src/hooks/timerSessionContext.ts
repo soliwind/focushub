@@ -10,6 +10,7 @@ export interface TimerSessionValue {
   restoring: boolean // 저장된 세션을 불러오는 중인지
   message: string // 다른 곳의 세션을 이어받았을 때 보여 줄 안내
   saveFailed: boolean
+  sharedGroupCount: number // 방금 마친 세션을 더한 그룹 수
   retrySave: () => void
   setGoal: (goal: string) => void
   start: () => void
