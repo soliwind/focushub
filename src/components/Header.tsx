@@ -22,7 +22,9 @@ export default function Header() {
           </nav>
           <div className="header-user">
             {isDevUser && <span className="header-dev">개발 모드 · 예시 데이터</span>}
-            <span>{user.displayName || user.email}</span>
+            <Link to="/account" className="header-account">
+              {user.displayName || user.email}
+            </Link>
             <button type="button" className="header-logout" onClick={logOut}>
               로그아웃
             </button>

@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Firebase 배포 도구가 만드는 임시 폴더
+.firebase

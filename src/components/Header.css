@@ -48,6 +48,15 @@
   color: var(--ink-2);
 }
 
+.header-account {
+  color: var(--ink-2);
+  text-decoration: none;
+}
+
+.header-account:hover {
+  color: var(--ink);
+}
+
 .header-logout {
   padding: 0;
   font: inherit;

@@ -1,0 +1,55 @@
+.account-info {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 8px 16px;
+  max-width: 480px;
+  margin: 32px 0 0;
+  font-size: 15px;
+}
+
+.account-info dt {
+  color: var(--ink-2);
+}
+
+.account-info dd {
+  margin: 0;
+}
+
+.account-delete {
+  max-width: 560px;
+  margin-top: 56px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.account-delete h2 {
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.account-delete p {
+  margin: 0 0 16px;
+}
+
+.account-status {
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
+.account-warning {
+  color: var(--away-ink);
+}
+
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.account-error {
+  margin-top: 16px;
+  font-size: 14px;
+  color: var(--away-ink);
+}

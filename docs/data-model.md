@@ -35,6 +35,11 @@
 - 그룹 아래에 두어 보안 규칙에서 "그 그룹 구성원만 읽기"를 경로로 확실하게 막는다.
 - groupId, sessionId, uid, displayName, studyMs, dayKey, weekKey, createdAt
 
+## deletionRequests/{uid}
+- 계정·기록 삭제 요청. 문서 ID가 uid라서 사용자당 하나만 생긴다.
+- uid, email, displayName, status: "pending" | "done", requestedAt, handledAt
+- 관리자가 Firebase 콘솔에서 데이터를 지운 뒤 status를 "done", handledAt을 채운다.
+
 ## 세션 저장 흐름
 1. 세션 종료 시 `studyMs`를 계산해 sessions 문서를 completed로 바꾼다. 오래 쉬어 자동 저장되면 auto_closed로 바꾼다. 둘 다 개인 통계와 그룹 집계에 들어간다.
 2. `shareToGroups`가 켜져 있으면, 그 시점에 `memberUids`에 내가 들어 있는 모든 그룹을 찾는다.

@@ -5,6 +5,7 @@ import RequireAuth from './components/RequireAuth'
 import TimerSessionProvider from './components/TimerSessionProvider'
 import { AuthProvider } from './lib/auth'
 import { useAuth } from './lib/authContext'
+import AccountPage from './pages/AccountPage'
 import GroupPage from './pages/GroupPage'
 import JoinPage from './pages/JoinPage'
 import LandingPage from './pages/LandingPage'
@@ -39,6 +40,14 @@ function AppRoutes() {
           element={
             <RequireAuth>
               <GroupPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <RequireAuth>
+              <AccountPage />
             </RequireAuth>
           }
         />
