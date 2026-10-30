@@ -81,6 +81,8 @@ export function createSampleSessions(uid: string, now: number): StudySession[] {
         shareToGroups: random() > 0.12,
         closeReason: autoClosed ? 'long_pause' : null,
         nextGoals: [],
+        lastHeartbeatAt: endedAt,
+        updatedAt: endedAt,
       })
 
       hour = (endedAt - parseDayKey(dayKey).setHours(0, 0, 0, 0)) / (60 * MINUTE_MS) + 0.5 + random() * 3

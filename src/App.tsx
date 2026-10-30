@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import GuestOnly from './components/GuestOnly'
 import Header from './components/Header'
 import RequireAuth from './components/RequireAuth'
+import TimerSessionProvider from './components/TimerSessionProvider'
 import { AuthProvider } from './lib/auth'
 import { useAuth } from './lib/authContext'
 import GroupPage from './pages/GroupPage'
@@ -17,7 +18,7 @@ function AppRoutes() {
   // 로그인 여부를 확인하는 아주 짧은 동안은 아무것도 그리지 않는다. (랜딩이 깜빡 보이는 것을 막는다)
   if (loading) return null
 
-  return (
+  const routes = (
     <>
       <Header />
       {/* 주소에 따라 아래 화면 중 하나만 보여 준다 */}
@@ -58,6 +59,15 @@ function AppRoutes() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
+  )
+
+  // 로그인했으면 메뉴를 옮겨도 타이머가 이어지도록 세션을 화면들 바깥에서 관리한다.
+  return user ? (
+    <TimerSessionProvider key={user.uid} uid={user.uid}>
+      {routes}
+    </TimerSessionProvider>
+  ) : (
+    routes
   )
 }
 

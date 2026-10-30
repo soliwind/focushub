@@ -13,8 +13,9 @@
 - events: [{ type: "start" | "pause" | "resume" | "end", at }] (탭 이탈로 생긴 일시정지도 "pause"로 기록하고 구분하지 않는다. 공부 타임라인에 쓴다.)
 - pausedMs (화면에 보여주지 않는 데이터), studyMs (확정 학습 시간, 일시정지 시간 제외)
 - shareToGroups: boolean
-- closeReason: null | "long_pause" | "stale_heartbeat" (자동 저장된 세션은 status를 "auto_closed"로 둔다)
-- lastHeartbeatAt
+- closeReason: null | "long_pause" (자동 저장된 세션은 status를 "auto_closed"로 둔다. 탭을 닫아 버린 세션도 마지막 신호 시각에 일시정지한 것으로 보므로 같은 값을 쓴다)
+- lastHeartbeatAt (화면이 열려 있는 동안 1분마다 보내는 신호)
+- updatedAt (마지막 변경 시각. 여러 탭·저장본 중 가장 새것을 고를 때 쓴다)
 - nextGoals: [{ at, text }] (복귀 루틴: 일시정지 후 다시 시작할 때 적은 이어서 할 일)
 
 ## groups/{groupId}

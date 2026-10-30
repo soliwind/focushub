@@ -22,7 +22,7 @@ function formatRange(start: string, end: string): string {
 }
 
 export default function RecordsPage() {
-  const { sessions } = useMySessions()
+  const { sessions, loading } = useMySessions()
   const [todayKey] = useState(() => getDayKey(Date.now()))
   const [kind, setKind] = useState<PeriodKind>('week')
   const [rangeStart, setRangeStart] = useState(() => addDays(todayKey, -13))
@@ -45,6 +45,9 @@ export default function RecordsPage() {
   const days = listDays(start, end)
 
   const subject = kind === 'today' ? '오늘은' : kind === 'week' ? '이번 주에는' : `${formatRange(start, end)}에는`
+
+  // 불러오는 동안 "기록 없음"이 잠깐 보이지 않게 한다.
+  if (loading) return <main className="page records" />
 
   return (
     <main className="page records">

@@ -24,29 +24,37 @@ export interface NextGoal {
 }
 
 export interface TimerState {
+  sessionId: string | null // Firestore sessions 문서 ID
+  goal: string // 공부 내용
   status: TimerStatus
   events: TimerEvent[]
   nextGoals: NextGoal[]
   closeReason: null | 'long_pause'
   // 화면 안내용: 이번 일시정지가 탭을 떠나서 생긴 것인지. 기록에는 남기지 않는다.
   pausedByLeave: boolean
+  updatedAt: number // 마지막으로 바뀐 시각. 여러 탭·저장본 중 가장 새것을 고를 때 쓴다.
 }
 
 export const initialTimerState: TimerState = {
+  sessionId: null,
+  goal: '',
   status: 'idle',
   events: [],
   nextGoals: [],
   closeReason: null,
   pausedByLeave: false,
+  updatedAt: 0,
 }
 
 export type TimerAction =
-  | { type: 'start'; at: number }
+  | { type: 'start'; at: number; sessionId: string }
+  | { type: 'setGoal'; at: number; goal: string }
   | { type: 'pause'; at: number; byLeave: boolean }
   | { type: 'resume'; at: number; nextGoal: string }
   | { type: 'end'; at: number }
   | { type: 'autoEnd'; at: number }
   | { type: 'reset' }
+  | { type: 'restore'; state: TimerState } // 저장해 둔 세션으로 바꾼다 (새로고침, 다른 탭)
 
 const MINUTE_MS = 60 * 1000
 const HOUR_MS = 60 * MINUTE_MS
@@ -59,9 +67,28 @@ function addEvent(state: TimerState, type: TimerEventType, at: number): TimerEve
 }
 
 export function timerReducer(state: TimerState, action: TimerAction): TimerState {
+  if (action.type === 'restore') return action.state
+  if (action.type === 'reset') return initialTimerState
+  const next = applyAction(state, action)
+  // 실제로 바뀐 경우에만 마지막 변경 시각을 적는다.
+  return next === state ? state : { ...next, updatedAt: Math.max(state.updatedAt, action.at) }
+}
+
+function applyAction(state: TimerState, action: Exclude<TimerAction, { type: 'restore' | 'reset' }>): TimerState {
   switch (action.type) {
     case 'start':
-      return { ...initialTimerState, status: 'running', events: [{ type: 'start', at: action.at }] }
+      if (state.status === 'running' || state.status === 'paused') return state
+      return {
+        ...initialTimerState,
+        sessionId: action.sessionId,
+        goal: state.goal,
+        status: 'running',
+        events: [{ type: 'start', at: action.at }],
+      }
+
+    case 'setGoal':
+      if (state.status === 'ended') return state
+      return { ...state, goal: action.goal }
 
     case 'pause':
       if (state.status !== 'running') return state
@@ -100,9 +127,6 @@ export function timerReducer(state: TimerState, action: TimerAction): TimerState
         closeReason: 'long_pause',
         events: addEvent(state, 'end', action.at),
       }
-
-    case 'reset':
-      return initialTimerState
   }
 }
 

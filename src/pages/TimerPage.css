@@ -87,6 +87,12 @@
 }
 
 
+.timer-message {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-2);
+}
+
 .timer-actions {
   display: flex;
   flex-wrap: wrap;

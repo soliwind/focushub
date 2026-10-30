@@ -17,8 +17,10 @@ export interface StudySession {
   pausedMs: number
   studyMs: number
   shareToGroups: boolean
-  closeReason: null | 'long_pause' | 'stale_heartbeat'
+  closeReason: null | 'long_pause'
   nextGoals: NextGoal[]
+  lastHeartbeatAt: number | null // 화면이 열려 있다는 신호를 마지막으로 보낸 시각
+  updatedAt: number // 마지막으로 바뀐 시각
 }
 
 // 기록과 통계에 들어가는 세션: 마친 세션과 자동 저장된 세션. 취소·진행 중 세션은 뺀다.
