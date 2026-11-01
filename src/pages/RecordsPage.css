@@ -47,8 +47,46 @@
   border-radius: var(--radius-control);
 }
 
+.records-week-move {
+  display: flex;
+  gap: 4px;
+}
+
+.records-week-move button {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  font: 400 18px var(--font-body);
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+
+.records-week-move button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
 .records-period-note {
   margin-left: auto;
+}
+
+.records-calendar {
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.records-calendar h2 {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.records-calendar p {
+  margin: 0 0 18px;
+  font-size: 15px;
 }
 
 .records-headline {

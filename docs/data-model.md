@@ -4,6 +4,10 @@
 - displayName, email, createdAt, lastLoginAt
 - settings: { notifyOnLeave: boolean, longPauseMinutes: number(10~120, 기본 30, 이 시간 넘게 쉬면 자동 저장), shareToGroups: boolean }
 
+## profiles/{uid}
+- photo (160×160 JPEG를 글자로 바꾼 data URL, 없으면 빈 문자열), bio (소개 메시지, 60자까지)
+- 그룹 구성원에게 보여야 해서 users와 분리했다. 로그인한 사람은 읽을 수 있고 본인만 쓴다.
+
 ## sessions/{sessionId}
 - uid, goal
 - status: "active" | "paused" | "completed" | "auto_closed" | "cancelled"

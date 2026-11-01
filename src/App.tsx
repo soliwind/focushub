@@ -7,9 +7,11 @@ import { AuthProvider } from './lib/auth'
 import { useAuth } from './lib/authContext'
 import AccountPage from './pages/AccountPage'
 import GroupPage from './pages/GroupPage'
+import GroupRoomPage from './pages/GroupRoomPage'
 import JoinPage from './pages/JoinPage'
 import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
+import MemberPage from './pages/MemberPage'
 import NewGroupPage from './pages/NewGroupPage'
 import RecordsPage from './pages/RecordsPage'
 import SignupPage from './pages/SignupPage'
@@ -63,7 +65,15 @@ function AppRoutes() {
           path="/group/:groupId"
           element={
             <RequireAuth>
-              <GroupPage />
+              <GroupRoomPage />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/group/:groupId/members/:uid"
+          element={
+            <RequireAuth>
+              <MemberPage />
             </RequireAuth>
           }
         />

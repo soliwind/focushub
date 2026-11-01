@@ -50,6 +50,10 @@ export interface Contribution {
   dayKey: string
 }
 
+export interface MemberContribution extends Contribution {
+  weekKey: string
+}
+
 export interface Person {
   uid: string
   displayName: string
@@ -168,6 +172,28 @@ export function subscribeWeekContributions(
           uid: d.data().uid,
           studyMs: d.data().studyMs ?? 0,
           dayKey: d.data().dayKey,
+        })),
+      )
+    },
+  )
+}
+
+// 한 구성원이 이 그룹에 공유한 기록 전체 (구성원 상세 화면)
+export function subscribeMemberContributions(
+  groupId: string,
+  uid: string,
+  onChange: (contributions: MemberContribution[]) => void,
+) {
+  return onSnapshot(
+    query(collection(requireDb(), 'groups', groupId, 'contributions'), where('uid', '==', uid)),
+    (snapshot) => {
+      onChange(
+        snapshot.docs.map((d) => ({
+          sessionId: d.id,
+          uid: d.data().uid,
+          studyMs: d.data().studyMs ?? 0,
+          dayKey: d.data().dayKey,
+          weekKey: d.data().weekKey,
         })),
       )
     },

@@ -1,0 +1,14 @@
+.avatar {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-initial {
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--sand);
+}

@@ -1,0 +1,35 @@
+.group-gauge {
+  margin-top: 28px;
+}
+
+.group-gauge-sentence {
+  margin: 0;
+  font-size: 22px;
+  letter-spacing: -0.4px;
+}
+
+.group-gauge-sentence em {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.group-gauge-bar {
+  height: 28px;
+  margin-top: 18px;
+  overflow: hidden;
+  background: var(--line-soft);
+  border-radius: var(--radius-control);
+}
+
+.group-gauge-bar div {
+  height: 100%;
+  background: var(--dawn-bar);
+}
+
+.group-gauge-reset {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: var(--ink-2);
+  text-align: right;
+}

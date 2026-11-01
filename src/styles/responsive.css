@@ -249,17 +249,14 @@
     display: none;
   }
 
-  .records-columns,
-  .group-columns {
+  .records-columns {
     gap: 44px;
     margin-top: 44px;
   }
 
   .session-list,
-  .study-heatmap,
-  .records-empty,
-  .group-week,
-  .group-side {
+  .records-calendar,
+  .records-empty {
     flex-basis: 100%;
   }
 
@@ -273,58 +270,51 @@
     font-size: 13px;
   }
 
-  .study-heatmap-grid {
+  .study-calendar {
     max-width: none;
   }
 
+  .study-calendar-move,
+  .records-week-move button {
+    width: 44px;
+    height: 44px;
+  }
+
   /* 스터디그룹 */
-  .group-tab {
-    padding: 8px 0;
+  .group-room-grid,
+  .group-member-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 20px;
   }
 
-  .group-tab-new {
-    margin-left: 0;
+  .group-member-grid {
+    margin-top: 0;
   }
 
-  .group-title-row {
-    gap: 4px 16px;
+  .group-back {
+    padding: 6px 0;
   }
 
   .group-meta {
     width: 100%;
-    margin: 0;
   }
 
   .group-invite {
-    width: 100%;
-    height: 44px;
-    margin: 12px 0 0;
+    margin-left: 0;
+    padding: 10px 0;
   }
 
-  .group-goal {
-    margin-top: 32px;
+  .group-gauge {
+    margin-top: 16px;
   }
 
-  .group-goal-sentence {
+  .group-gauge-sentence {
     font-size: 18px;
   }
 
-  .group-goal-reset {
-    margin-left: 0;
-  }
-
-  .group-week-row {
-    grid-template-columns: minmax(52px, 1fr) repeat(7, 20px) 40px;
-    gap: 0 4px;
-  }
-
-  .group-week-dot {
-    width: 12px;
-    height: 12px;
-  }
-
-  .group-week-total {
-    font-size: 13px;
+  .member-card {
+    padding: 20px;
   }
 
   .group-request-reject,
@@ -334,6 +324,20 @@
 
   .group-leave {
     padding: 10px 0;
+  }
+
+  .member-head {
+    gap: 16px;
+  }
+
+  .member-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 12px;
+    margin-top: 28px;
+  }
+
+  .member-stats dd {
+    font-size: 20px;
   }
 
   /* 계정 */

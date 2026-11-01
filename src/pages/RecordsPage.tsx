@@ -2,12 +2,12 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import DailyBars from '../components/DailyBars'
 import SessionList from '../components/SessionList'
-import StudyHeatmap from '../components/StudyHeatmap'
+import StudyCalendar from '../components/StudyCalendar'
 import { useMySessions } from '../hooks/useMySessions'
 import { addDays, formatMonthDay, getDayKey, getWeekStart, listDays, parseDayKey, weekdayName } from '../lib/dates'
 import { formatDuration } from '../lib/format'
 import { isCountedSession } from '../lib/sessions'
-import { summarize, totalsByDay } from '../lib/stats'
+import { getStreakDays, summarize, totalsByDay } from '../lib/stats'
 import './RecordsPage.css'
 
 type PeriodKind = 'today' | 'week' | 'range'
@@ -25,13 +25,14 @@ export default function RecordsPage() {
   const { sessions, loading } = useMySessions()
   const [todayKey] = useState(() => getDayKey(Date.now()))
   const [kind, setKind] = useState<PeriodKind>('week')
+  const [weeksBack, setWeeksBack] = useState(0) // 0이면 이번 주, 1이면 지난주
   const [rangeStart, setRangeStart] = useState(() => addDays(todayKey, -13))
   const [rangeEnd, setRangeEnd] = useState(todayKey)
 
   let start = todayKey
   let end = todayKey
   if (kind === 'week') {
-    start = getWeekStart(todayKey)
+    start = addDays(getWeekStart(todayKey), -7 * weeksBack)
     end = addDays(start, 6)
   } else if (kind === 'range') {
     // 시작일이 끝일보다 늦으면 서로 바꿔서 본다
@@ -44,7 +45,13 @@ export default function RecordsPage() {
   const allTotals = totalsByDay(counted)
   const days = listDays(start, end)
 
-  const subject = kind === 'today' ? '오늘은' : kind === 'week' ? '이번 주에는' : `${formatRange(start, end)}에는`
+  const subject =
+    kind === 'today'
+      ? '오늘은'
+      : kind === 'week' && weeksBack === 0
+        ? '이번 주에는'
+        : `${formatRange(start, end)}에는`
+  const streak = getStreakDays(allTotals, todayKey)
 
   // 불러오는 동안 "기록 없음"이 잠깐 보이지 않게 한다.
   if (loading) return <main className="page records" />
@@ -65,7 +72,10 @@ export default function RecordsPage() {
               type="button"
               className="records-tab"
               aria-pressed={kind === value}
-              onClick={() => setKind(value)}
+              onClick={() => {
+                setKind(value)
+                setWeeksBack(0)
+              }}
             >
               {label}
             </button>
@@ -96,6 +106,21 @@ export default function RecordsPage() {
               max={todayKey}
               onChange={(e) => e.target.value && setRangeEnd(e.target.value)}
             />
+          </div>
+        )}
+        {kind === 'week' && (
+          <div className="records-week-move">
+            <button type="button" aria-label="이전 주" onClick={() => setWeeksBack((n) => n + 1)}>
+              ‹
+            </button>
+            <button
+              type="button"
+              aria-label="다음 주"
+              disabled={weeksBack === 0}
+              onClick={() => setWeeksBack((n) => n - 1)}
+            >
+              ›
+            </button>
           </div>
         )}
         <span className="records-period-note">{formatRange(start, end)} · 하루는 오전 5시에 시작</span>
@@ -134,7 +159,11 @@ export default function RecordsPage() {
             </Link>
           </section>
         )}
-        <StudyHeatmap totals={allTotals} todayKey={todayKey} />
+        <section className="records-calendar" aria-label="학습 달력">
+          <h2>학습 달력</h2>
+          <p>{streak > 0 ? `${streak}일째 이어서 공부하고 있어요.` : '오늘 공부하면 다시 이어 가기 시작해요.'}</p>
+          <StudyCalendar totals={allTotals} todayKey={todayKey} />
+        </section>
       </div>
     </main>
   )

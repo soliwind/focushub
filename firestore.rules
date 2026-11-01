@@ -29,6 +29,16 @@ service cloud.firestore {
       allow read, write: if signedIn() && request.auth.uid == uid;
     }
 
+    // 프로필(사진, 소개): 그룹 구성원에게 보여야 해서 로그인한 사람은 읽을 수 있다. 쓰기는 본인만.
+    match /profiles/{uid} {
+      allow read: if signedIn();
+      allow write: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['photo', 'bio'])
+        && request.resource.data.photo.size() < 100000
+        && request.resource.data.bio.size() <= 60;
+    }
+
     // 공부 세션: 내 세션만 읽고 쓴다. 다른 사람 것으로 바꿔 저장할 수 없다. 지우지는 않는다.
     match /sessions/{sessionId} {
       allow read: if signedIn() && resource.data.uid == request.auth.uid;

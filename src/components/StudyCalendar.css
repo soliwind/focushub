@@ -1,0 +1,98 @@
+.study-calendar {
+  max-width: 400px;
+}
+
+.study-calendar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.study-calendar-month {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.study-calendar-move {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font: 400 20px var(--font-body);
+  color: var(--ink);
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+}
+
+.study-calendar-move:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+.study-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 4px;
+}
+
+.study-calendar-weekday {
+  padding-bottom: 4px;
+  font-size: 12px;
+  color: var(--ink-2);
+  text-align: center;
+}
+
+.study-calendar-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  font-size: 13px;
+  border-radius: 8px;
+}
+
+.study-calendar-day[data-future='true'] {
+  color: var(--ink-3);
+}
+
+.study-calendar-day[data-today='true'] {
+  font-weight: 600;
+  outline: 2px solid var(--ink-2);
+  outline-offset: -2px;
+}
+
+/* 진한 칸에서는 숫자가 잘 보이도록 흰 글자 */
+.study-calendar-day[data-level='4'] {
+  color: #fff;
+}
+
+.study-calendar-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--ink-2);
+}
+
+.study-calendar-legend span:first-child {
+  margin-right: 4px;
+}
+
+.study-calendar-legend span:last-child {
+  margin-left: 4px;
+}
+
+.study-calendar-swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+/* 농도는 taupe 한 가지 색의 진하기 차이 */
+.study-calendar [data-level='0'] { background: var(--heat-0); }
+.study-calendar [data-level='1'] { background: var(--heat-1); }
+.study-calendar [data-level='2'] { background: var(--heat-2); }
+.study-calendar [data-level='3'] { background: var(--heat-3); }
+.study-calendar [data-level='4'] { background: var(--heat-4); }

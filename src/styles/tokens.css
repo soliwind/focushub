@@ -29,6 +29,7 @@
   --bg-away: linear-gradient(180deg, #F1E7E2 0%, #EBD3C8 100%);
   --bg-paused: #EBE1D7;
   --bg-idle: #F2ECE7;
+  --bg-today: linear-gradient(180deg, #ECF8F8 0%, #EEF1EC 45%, #EEE4E1 100%); /* 오늘 공부한 구성원 상자 */
 
   /* 기록 히트맵 농도 (taupe 한 가지 색의 농도 차이) */
   --heat-0: #E6DDD5; --heat-1: #D6C6B9; --heat-2: #C6B09E; --heat-3: #B2967D; --heat-4: #8E7562;

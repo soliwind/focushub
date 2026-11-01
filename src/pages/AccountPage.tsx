@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import ProfileEditor from '../components/ProfileEditor'
 import { useAuth } from '../lib/authContext'
 import { getDeletionRequest, requestDeletion, type DeletionRequest } from '../lib/accountStore'
 import { formatDateLong } from '../lib/format'
@@ -57,6 +58,8 @@ export default function AccountPage() {
         <dt>이메일</dt>
         <dd>{user.email}</dd>
       </dl>
+
+      <ProfileEditor uid={user.uid} name={user.displayName || user.email} />
 
       <section className="account-delete" aria-label="계정과 기록 삭제">
         <h2>계정과 기록 삭제</h2>
