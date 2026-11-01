@@ -77,3 +77,17 @@
   border: 1px dashed var(--line-control);
   border-radius: var(--radius-control);
 }
+
+/* 공부하는 동안 잠긴 메뉴 */
+.header-disabled {
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-2);
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.header-logout:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

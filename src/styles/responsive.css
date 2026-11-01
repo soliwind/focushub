@@ -401,6 +401,19 @@
     font-size: 20px;
   }
 
+  /* 공부 중 그룹 탭과 지금 상태 */
+  .live-groups {
+    padding: 0 20px;
+  }
+
+  .live-tab {
+    padding: 8px 0 6px;
+  }
+
+  .live-list {
+    grid-template-columns: 1fr;
+  }
+
   /* 계정 */
   .account-delete {
     margin-top: 40px;

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useAuth } from '../lib/authContext'
+import { savePresence, type Presence } from '../lib/groupStore'
 import type { StudySession } from '../lib/sessions'
 import {
   clearSessionLocal,
@@ -18,6 +19,7 @@ import {
 import { getPauseStartAt, getStudyMs, initialTimerState, timerReducer, type TimerAction, type TimerState } from '../lib/timer'
 import { formatClock } from '../lib/format'
 import type { TimerSessionValue } from './timerSessionContext'
+import { useMyGroups } from './useMyGroups'
 import { useNow } from './useNow'
 import { useUserSettings } from './useUserSettings'
 
@@ -46,6 +48,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
   const { user } = useAuth()
   const displayName = user?.displayName || user?.email || ''
   const [settings, setSettings, settingsReady] = useUserSettings()
+  const { groups } = useMyGroups()
   const [timer, setTimer] = useState<TimerState>(initialTimerState)
   const [restoring, setRestoring] = useState(true)
   const [message, setMessage] = useState('')
@@ -58,6 +61,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
   const heartbeatRef = useRef<number | null>(null)
   const lastTickRef = useRef(0)
   const unloadingRef = useRef(false)
+  const presenceStateRef = useRef<'on' | 'off'>('off')
   const savedKeyRef = useRef('') // 상태 변화(일시정지 등)를 이미 저장했는지
   const savedSignatureRef = useRef('') // 내용까지 같은 저장을 건너뛰기 위한 값
 
@@ -201,6 +205,30 @@ export function useTimerSession(uid: string): TimerSessionValue {
     return () => window.clearTimeout(id)
   }, [uid, displayName, restoring, status, updatedAt, sessionId, settings.shareToGroups, saveAttempt])
 
+  // 그룹 표시판에 지금 상태를 올린다. 공부 상태와 시간만 올리고, 공유를 끄면 오프라인으로 보인다.
+  const groupKey = groups.map((g) => g.id).sort().join(',')
+  const publishPresence = useCallback(() => {
+    const groupIds = groupKey ? groupKey.split(',') : []
+    const current = timerRef.current
+    const at = Date.now()
+    const studying = current.status === 'running' && shareRef.current
+    const paused = current.status === 'paused' && shareRef.current
+    const presence: Presence = {
+      uid,
+      state: studying ? 'studying' : paused ? 'paused' : 'off',
+      studyMs: getStudyMs(current.events, at),
+      runningSince: studying ? at : null,
+      lastSeenAt: at,
+    }
+    if (presence.state === 'off' && presenceStateRef.current !== 'on') return // 이미 꺼져 있으면 쓰지 않는다
+    presenceStateRef.current = presence.state === 'off' ? 'off' : 'on'
+    savePresence(groupIds, presence).catch((error) => console.error('지금 상태를 올리지 못했어요.', error))
+  }, [uid, groupKey])
+
+  useEffect(() => {
+    if (!restoring) publishPresence()
+  }, [restoring, status, updatedAt, settings.shareToGroups, groupKey, publishPresence])
+
   // 화면이 열려 있다는 신호. 탭을 닫아 버린 세션을 나중에 알아보는 데 쓴다.
   useEffect(() => {
     if (!open || !sessionId) return
@@ -211,9 +239,10 @@ export function useTimerSession(uid: string): TimerSessionValue {
       const session = toStudySession(timerRef.current, uid, shareRef.current, at)
       if (session) saveSessionLocal(session)
       sendHeartbeat(sessionId, at).catch((error) => console.error('신호를 보내지 못했어요.', error))
+      publishPresence()
     }, HEARTBEAT_MS)
     return () => window.clearInterval(id)
-  }, [uid, open, sessionId])
+  }, [uid, open, sessionId, publishPresence])
 
   // 공부 중에 시계가 오래 멈췄다가 돌아오면 컴퓨터가 잠들었던 것이다. 그 시간은 공부로 치지 않는다.
   useEffect(() => {
@@ -279,6 +308,7 @@ export function useTimerSession(uid: string): TimerSessionValue {
   return {
     timer,
     now,
+    groups,
     settings,
     setSettings,
     restoring,

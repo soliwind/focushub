@@ -1,10 +1,12 @@
 import { createContext, useContext } from 'react'
+import type { Group } from '../lib/groupStore'
 import type { TimerState } from '../lib/timer'
 import type { UserSettings } from '../lib/userProfile'
 
 export interface TimerSessionValue {
   timer: TimerState
   now: number
+  groups: Group[] // 내가 가입한 그룹
   settings: UserSettings
   setSettings: (next: UserSettings) => void
   restoring: boolean // 저장된 세션을 불러오는 중인지

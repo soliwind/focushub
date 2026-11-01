@@ -264,3 +264,41 @@ export async function leaveGroup(groupId: string, uid: string): Promise<void> {
   batch.update(groupRef(groupId), { memberUids: arrayRemove(uid) })
   await batch.commit()
 }
+
+// 지금 상태 표시판 (groups/{groupId}/presence/{uid})
+// 공부 상태와 시간만 공유한다. 공부 내용은 넣지 않는다.
+export interface Presence {
+  uid: string
+  state: 'studying' | 'paused' | 'off'
+  studyMs: number // runningSince 시점까지 공부한 시간
+  runningSince: number | null // 공부 중이면 그 시각부터 시간이 더 흐른다
+  lastSeenAt: number
+}
+
+const PRESENCE_STALE_MS = 3 * 60 * 1000 // 신호가 이만큼 끊기면 탭을 닫은 것으로 본다
+
+// 표시판 값으로 지금 보여 줄 상태와 시간을 계산한다.
+export function readPresence(presence: Presence | undefined, now: number): { state: Presence['state']; studyMs: number } {
+  if (!presence || presence.state === 'off' || now - presence.lastSeenAt > PRESENCE_STALE_MS) {
+    return { state: 'off', studyMs: 0 }
+  }
+  const running = presence.runningSince === null ? 0 : Math.max(0, now - presence.runningSince)
+  return { state: presence.state, studyMs: presence.studyMs + running }
+}
+
+export async function savePresence(groupIds: string[], presence: Presence): Promise<void> {
+  if (groupIds.length === 0) return
+  const batch = writeBatch(requireDb())
+  for (const groupId of groupIds) {
+    batch.set(doc(requireDb(), 'groups', groupId, 'presence', presence.uid), presence)
+  }
+  await batch.commit()
+}
+
+export function subscribePresence(groupId: string, onChange: (presence: Record<string, Presence>) => void) {
+  return onSnapshot(
+    collection(requireDb(), 'groups', groupId, 'presence'),
+    (snapshot) => onChange(Object.fromEntries(snapshot.docs.map((d) => [d.id, d.data() as Presence]))),
+    (error) => console.error('지금 상태를 불러오지 못했어요.', error),
+  )
+}

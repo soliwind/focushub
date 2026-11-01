@@ -34,6 +34,11 @@
 ## groups/{groupId}/joinRequests/{uid}
 - displayName, requestedAt, status: "pending" | "approved" | "rejected", handledAt
 
+## groups/{groupId}/presence/{uid}
+- 공부하는 동안 구성원에게 보여 주는 지금 상태. 공부 내용은 넣지 않는다.
+- uid, state: "studying" | "paused" | "off", studyMs, runningSince, lastSeenAt
+- 상태가 바뀔 때와 1분마다 쓴다. lastSeenAt이 3분 넘게 지났으면 오프라인으로 본다. 그룹 공유를 끄면 "off"로 쓴다.
+
 ## groups/{groupId}/contributions/{sessionId}
 - 문서 ID를 세션 ID로 고정해서 같은 세션이 같은 그룹에 두 번 더해지지 않게 한다.
 - 그룹 아래에 두어 보안 규칙에서 "그 그룹 구성원만 읽기"를 경로로 확실하게 막는다.

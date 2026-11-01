@@ -137,6 +137,14 @@ service cloud.firestore {
         allow delete: if false;
       }
 
+      // 지금 상태 표시판: 구성원만 읽고, 본인 것만 쓴다. 공부 상태와 시간만 들어 있다.
+      match /presence/{uid} {
+        allow read: if isMember(groupId);
+        allow write: if isMember(groupId)
+          && request.auth.uid == uid
+          && request.resource.data.uid == uid;
+      }
+
       // 그룹 집계: 구성원만 읽고, 본인 세션만 더한다. 문서 ID가 세션 ID라 같은 세션은 두 번 더해지지 않는다.
       match /contributions/{sessionId} {
         allow read: if isMember(groupId);

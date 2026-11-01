@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import GuestOnly from './components/GuestOnly'
 import Header from './components/Header'
 import RequireAuth from './components/RequireAuth'
+import TimerGuard from './components/TimerGuard'
 import TimerSessionProvider from './components/TimerSessionProvider'
 import { AuthProvider } from './lib/auth'
 import { useAuth } from './lib/authContext'
@@ -26,6 +27,7 @@ function AppRoutes() {
   const routes = (
     <>
       <Header />
+      <TimerGuard />
       {/* 주소에 따라 아래 화면 중 하나만 보여 준다 */}
       <Routes>
         <Route path="/" element={user ? <TimerPage /> : <LandingPage />} />

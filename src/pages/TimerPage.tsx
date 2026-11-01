@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import LiveGroups from '../components/LiveGroups'
 import SessionLog from '../components/SessionLog'
 import { PauseNotice } from '../components/TimerNotices'
 import TodayPanel from '../components/TodayPanel'
@@ -7,6 +8,7 @@ import TimerSettings from '../components/TimerSettings'
 import { useTimerSessionContext } from '../hooks/timerSessionContext'
 import { useMySessions } from '../hooks/useMySessions'
 import { useNow } from '../hooks/useNow'
+import { useAuth } from '../lib/authContext'
 import { getDayKey } from '../lib/dates'
 import { formatClock, formatDateLong, formatDuration, withObjectParticle } from '../lib/format'
 import { isCountedSession } from '../lib/sessions'
@@ -26,6 +28,7 @@ export default function TimerPage() {
   const {
     timer,
     now,
+    groups,
     settings,
     setSettings,
     restoring,
@@ -41,6 +44,7 @@ export default function TimerPage() {
     reset,
   } = useTimerSessionContext()
 
+  const { user } = useAuth()
   const { sessions, loading } = useMySessions()
   const { status, events, goal } = timer
   const studyMs = getStudyMs(events, now)
@@ -77,6 +81,10 @@ export default function TimerPage() {
 
   return (
     <>
+      {(status === 'running' || status === 'paused') && user && (
+        <LiveGroups groups={groups} myUid={user.uid} now={now} />
+      )}
+
       <main className="timer-main">
         <section className="timer" aria-label="타이머" data-status={status}>
           <div className="timer-status">
