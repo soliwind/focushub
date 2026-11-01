@@ -44,7 +44,6 @@ export default function SessionLog({ events, nextGoals, closeReason }: Props) {
   return (
     <aside className="session-log" aria-label="이번 세션 기록">
       <h2 className="session-log-title">이번 세션</h2>
-      {rows.length === 0 && <p className="session-log-empty">시작하면 여기에 기록이 쌓여요.</p>}
       {rows.map((row, i) => (
         <div key={`${row.at}-${i}`} className="session-log-row" data-kind={row.kind}>
           <span className="session-log-time">{formatTimeOfDay(row.at)}</span>

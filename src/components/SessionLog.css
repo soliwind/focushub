@@ -13,12 +13,6 @@
   color: var(--ink-2);
 }
 
-.session-log-empty {
-  margin: 0;
-  font-size: 14px;
-  color: var(--ink-2);
-}
-
 .session-log-row {
   display: flex;
   gap: 12px;

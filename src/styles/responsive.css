@@ -92,9 +92,23 @@
     border-left: none;
   }
 
-  /* 시작 전에는 기록이 없으니 자리만 차지하지 않게 숨긴다 */
-  .session-log:has(.session-log-empty) {
-    display: none;
+  .today-panel {
+    flex-basis: 100%;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: none;
+  }
+
+  .today-panel-goal {
+    padding: 13px 0;
+  }
+
+  .today-strip {
+    padding: 0 20px 28px;
+  }
+
+  .today-strip-hours {
+    font-size: 11px;
   }
 
   .notice {

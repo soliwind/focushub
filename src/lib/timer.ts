@@ -156,6 +156,22 @@ export function getStudyMs(events: TimerEvent[], now: number): number {
   return total
 }
 
+// 실제로 공부한 구간 목록. 합치면 getStudyMs와 같다. 공부 타임라인에 쓴다.
+export function getStudyIntervals(events: TimerEvent[]): { from: number; to: number }[] {
+  const intervals: { from: number; to: number }[] = []
+  let runningSince: number | null = null
+
+  for (const event of events) {
+    if (event.type === 'start' || event.type === 'resume') {
+      runningSince = event.at
+    } else if (runningSince !== null) {
+      intervals.push({ from: runningSince, to: event.at })
+      runningSince = null
+    }
+  }
+  return intervals
+}
+
 // 일시정지한 시간의 합. 화면에는 보여 주지 않고 데이터로만 저장한다 (sessions.pausedMs).
 export function getPausedMs(events: TimerEvent[], now: number): number {
   let total = 0

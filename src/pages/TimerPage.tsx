@@ -1,11 +1,19 @@
 import { useEffect } from 'react'
 import SessionLog from '../components/SessionLog'
 import { PauseNotice } from '../components/TimerNotices'
+import TodayPanel from '../components/TodayPanel'
+import TodayStrip from '../components/TodayStrip'
 import TimerSettings from '../components/TimerSettings'
 import { useTimerSessionContext } from '../hooks/timerSessionContext'
+import { useMySessions } from '../hooks/useMySessions'
+import { useNow } from '../hooks/useNow'
+import { getDayKey } from '../lib/dates'
 import { formatClock, formatDateLong, formatDuration, withObjectParticle } from '../lib/format'
+import { isCountedSession } from '../lib/sessions'
 import { getPauseStartAt, getStudyDate, getStudyMs, type TimerStatus } from '../lib/timer'
 import './TimerPage.css'
+
+const MINUTE_MS = 60 * 1000
 
 const STATUS_TEXT: Record<TimerStatus, string> = {
   idle: '시작 전',
@@ -33,11 +41,20 @@ export default function TimerPage() {
     reset,
   } = useTimerSessionContext()
 
+  const { sessions, loading } = useMySessions()
   const { status, events, goal } = timer
   const studyMs = getStudyMs(events, now)
   const clock = formatClock(studyMs)
   const studyDate = getStudyDate(events[0]?.at ?? now)
   const pauseStartAt = getPauseStartAt(events)
+  const counted = sessions.filter(isCountedSession)
+  const minuteNow = useNow(true, MINUTE_MS) // 창을 열어 둔 채 오전 5시가 지나도 오늘이 바뀌도록
+  const todayKey = getDayKey(minuteNow)
+
+  const startGoal = (nextGoal: string) => {
+    setGoal(nextGoal)
+    start()
+  }
 
   // 화면 전체 배경색이 상태를 알려 준다 (global.css의 body[data-timer] 규칙).
   useEffect(() => {
@@ -129,8 +146,18 @@ export default function TimerPage() {
           )}
         </section>
 
-        <SessionLog events={events} nextGoals={timer.nextGoals} closeReason={timer.closeReason} />
+        {status === 'idle' ? (
+          !loading && (
+            <TodayPanel todayKey={todayKey} sessions={counted} disabled={restoring} onStart={startGoal} />
+          )
+        ) : (
+          <SessionLog events={events} nextGoals={timer.nextGoals} closeReason={timer.closeReason} />
+        )}
       </main>
+
+      {(status === 'idle' || status === 'ended') && !loading && (
+        <TodayStrip todayKey={todayKey} sessions={counted.filter((s) => s.dayKey === todayKey)} />
+      )}
 
       <TimerSettings value={settings} onChange={setSettings} shareLocked={status === 'ended'} />
     </>

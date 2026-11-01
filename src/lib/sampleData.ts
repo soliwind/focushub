@@ -80,7 +80,9 @@ export function createSampleSessions(uid: string, now: number): StudySession[] {
         studyMs: getStudyMs(events, endedAt),
         shareToGroups: random() > 0.12,
         closeReason: autoClosed ? 'long_pause' : null,
-        nextGoals: [],
+        nextGoals: events
+          .filter((e) => e.type === 'resume')
+          .map((e) => ({ at: e.at, text: '틀린 문제 다시 풀기' })),
         lastHeartbeatAt: endedAt,
         updatedAt: endedAt,
       })

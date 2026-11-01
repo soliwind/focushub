@@ -50,3 +50,16 @@ export function getStreakDays(totals: Map<string, number>, todayKey: string): nu
   }
   return count
 }
+
+// 가장 최근에 적어 둔 "이어서 할 일"
+export function getLatestNextGoal(sessions: StudySession[]): string | null {
+  const notes = sessions.flatMap((s) => s.nextGoals)
+  return notes.sort((a, b) => b.at - a.at)[0]?.text ?? null
+}
+
+// 최근 공부 내용. 같은 내용은 한 번만, 최근 것부터.
+export function getRecentGoals(sessions: StudySession[], limit: number): string[] {
+  const sorted = [...sessions].sort((a, b) => b.startedAt - a.startedAt)
+  const goals = sorted.map((s) => s.goal.trim()).filter(Boolean)
+  return [...new Set(goals)].slice(0, limit)
+}
