@@ -42,7 +42,7 @@
 }
 
 .daily-bars-col[data-today='true'] .daily-bars-bar {
-  background: var(--dawn-column);
+  background: var(--point);
 }
 
 .daily-bars .daily-bars-col .daily-bars-bar[data-empty='true'] {

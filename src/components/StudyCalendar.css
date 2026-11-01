@@ -62,11 +62,6 @@
   outline-offset: -2px;
 }
 
-/* 진한 칸에서는 숫자가 잘 보이도록 흰 글자 */
-.study-calendar-day[data-level='4'] {
-  color: #fff;
-}
-
 .study-calendar-legend {
   display: flex;
   align-items: center;
@@ -90,7 +85,7 @@
   border-radius: 3px;
 }
 
-/* 농도는 taupe 한 가지 색의 진하기 차이 */
+/* 공부를 많이 한 날일수록 갈색에서 진한 하늘색으로 바뀐다 */
 .study-calendar [data-level='0'] { background: var(--heat-0); }
 .study-calendar [data-level='1'] { background: var(--heat-1); }
 .study-calendar [data-level='2'] { background: var(--heat-2); }

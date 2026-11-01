@@ -29,15 +29,13 @@
   --bg-away: linear-gradient(180deg, #F1E7E2 0%, #EBD3C8 100%);
   --bg-paused: #EBE1D7;
   --bg-idle: #F2ECE7;
-  --bg-today: linear-gradient(180deg, #ECF8F8 0%, #EEF1EC 45%, #EEE4E1 100%); /* 오늘 공부한 구성원 상자 */
 
-  /* 기록 히트맵 농도 (taupe 한 가지 색의 농도 차이) */
-  --heat-0: #E6DDD5; --heat-1: #D6C6B9; --heat-2: #C6B09E; --heat-3: #B2967D; --heat-4: #8E7562;
+  /* 학습 달력 농도: 갈색 → 하늘색이 섞인 갈색 → 하늘색 → 진한 하늘색 */
+  --heat-0: #E6DDD5; --heat-1: #C9B39F; --heat-2: #B4BDAF; --heat-3: #9FD3D8; --heat-4: #5FB0BD;
 
-  /* 포인트 그라데이션: 하늘색에서 토프로 이어지는 새벽 색 (진행 바, 오늘 표시) */
-  --dawn-bar: linear-gradient(90deg, #B2967D 0%, #C9D6CE 80%, #ECF8F8 100%);
-  --dawn-column: linear-gradient(180deg, #ECF8F8 0%, #C9D6CE 22%, #B2967D 70%);
-  --dawn-dot: linear-gradient(180deg, #ECF8F8, #A9BFB8);
+  /* 포인트 파랑: 타이머 시작과 그래프에 단색으로 쓴다 */
+  --point: #8FD0D6;
+  --point-deep: #5FB0BD;
 
   --radius-area: 16px;
   --radius-control: 10px;

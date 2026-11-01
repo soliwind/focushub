@@ -15,10 +15,10 @@ interface Props {
   todayKey: string
 }
 
-// 구성원 상자. 오늘 공부했으면 하늘색 그라데이션으로 눈에 띄게 한다. 순위는 매기지 않는다.
+// 구성원 상자. 내 상자만 옅은 하늘색으로 표시한다. 순위는 매기지 않는다.
 export default function MemberCard({ to, name, photo, isMe, todayMs, weekDays, studiedDays, todayKey }: Props) {
   return (
-    <Link to={to} className="member-card" data-studied={todayMs > 0}>
+    <Link to={to} className="member-card" data-me={isMe}>
       <div className="member-card-top">
         <Avatar name={name} photo={photo} size={72} />
         <div className="member-card-name">

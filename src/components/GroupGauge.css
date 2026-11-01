@@ -24,7 +24,7 @@
 
 .group-gauge-bar div {
   height: 100%;
-  background: var(--dawn-bar);
+  background: var(--point);
 }
 
 .group-gauge-reset {

@@ -33,7 +33,7 @@
   top: 0;
   bottom: 0;
   min-width: 2px;
-  background: var(--dawn-bar);
+  background: var(--point);
 }
 
 .today-strip-now {

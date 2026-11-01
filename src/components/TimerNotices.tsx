@@ -38,7 +38,7 @@ export function PauseNotice({ pausedMs, pausedByLeave, longPauseMinutes, onResum
           placeholder="3번 문제 다시 풀기"
           autoComplete="off"
         />
-        <button type="submit" className="btn btn-primary notice-button">
+        <button type="submit" className="btn btn-primary btn-start notice-button">
           다시 시작
         </button>
         <button type="button" className="btn btn-secondary notice-button" onClick={onEnd}>
