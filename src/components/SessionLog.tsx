@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { NextGoal, TimerEvent, TimerState } from '../lib/timer'
 import { formatTimeOfDay } from '../lib/format'
 import './SessionLog.css'
@@ -36,9 +37,10 @@ interface Props {
   events: TimerEvent[]
   nextGoals: NextGoal[]
   closeReason: TimerState['closeReason']
+  children?: ReactNode // 이번 세션 아래에 붙는 내용
 }
 
-export default function SessionLog({ events, nextGoals, closeReason }: Props) {
+export default function SessionLog({ events, nextGoals, closeReason, children }: Props) {
   const rows = toRows(events, nextGoals, closeReason)
 
   return (
@@ -50,6 +52,7 @@ export default function SessionLog({ events, nextGoals, closeReason }: Props) {
           <span className="session-log-text">{row.text}</span>
         </div>
       ))}
+      {children}
     </aside>
   )
 }

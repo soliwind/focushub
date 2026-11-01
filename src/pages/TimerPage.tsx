@@ -81,10 +81,6 @@ export default function TimerPage() {
 
   return (
     <>
-      {(status === 'running' || status === 'paused') && user && (
-        <LiveGroups groups={groups} myUid={user.uid} now={now} />
-      )}
-
       <main className="timer-main">
         <section className="timer" aria-label="타이머" data-status={status}>
           <div className="timer-status">
@@ -159,7 +155,9 @@ export default function TimerPage() {
             <TodayPanel todayKey={todayKey} sessions={counted} disabled={restoring} onStart={startGoal} />
           )
         ) : (
-          <SessionLog events={events} nextGoals={timer.nextGoals} closeReason={timer.closeReason} />
+          <SessionLog events={events} nextGoals={timer.nextGoals} closeReason={timer.closeReason}>
+            {status !== 'ended' && user && <LiveGroups groups={groups} myUid={user.uid} now={now} />}
+          </SessionLog>
         )}
       </main>
 

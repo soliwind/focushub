@@ -1,8 +1,7 @@
 .live-groups {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 56px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
 
 /* 위 메뉴와 같은 밑줄 글자 모양, 조금 작게 */
@@ -33,7 +32,6 @@
 
 .live-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 8px;
   margin-top: 12px;
 }

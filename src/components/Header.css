@@ -67,7 +67,7 @@
   text-underline-offset: 3px;
 }
 
-.header-logout:hover {
+.header-logout:hover:not(:disabled) {
   color: var(--ink);
 }
 
@@ -78,16 +78,16 @@
   border-radius: var(--radius-control);
 }
 
-/* 공부하는 동안 잠긴 메뉴 */
+/* 공부하는 동안 잠긴 메뉴: 글자만 연하게 하고 마우스를 올려도 바뀌지 않는다 */
 .header-disabled {
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
   color: var(--ink-2);
   opacity: 0.45;
-  cursor: not-allowed;
 }
 
 .header-logout:disabled {
+  color: var(--ink-2);
   opacity: 0.45;
-  cursor: not-allowed;
+  cursor: default;
 }

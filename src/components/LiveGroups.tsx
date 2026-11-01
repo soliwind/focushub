@@ -10,13 +10,13 @@ interface Props {
   now: number
 }
 
-// 공부하는 동안 메뉴 아래에 뜨는 그룹 탭. 누르면 그 그룹의 지금 상태를 보여 준다.
+// 공부하는 동안 이번 세션 아래에 뜨는 그룹 탭. 처음에는 첫 번째 그룹을 보여 준다.
 export default function LiveGroups({ groups, myUid, now }: Props) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const sorted = [...groups].sort((a, b) => a.name.localeCompare(b.name, 'ko'))
-  const selected = sorted.find((g) => g.id === selectedId)
+  const selected = sorted.find((g) => g.id === selectedId) ?? sorted[0]
 
-  if (sorted.length === 0) return null
+  if (!selected) return null
 
   return (
     <div className="live-groups">
@@ -26,14 +26,14 @@ export default function LiveGroups({ groups, myUid, now }: Props) {
             key={group.id}
             type="button"
             className="live-tab"
-            aria-pressed={group.id === selectedId}
-            onClick={() => setSelectedId(group.id === selectedId ? null : group.id)}
+            aria-pressed={group.id === selected.id}
+            onClick={() => setSelectedId(group.id)}
           >
             {group.name}
           </button>
         ))}
       </nav>
-      {selected && <LiveMembers key={selected.id} groupId={selected.id} myUid={myUid} now={now} />}
+      <LiveMembers key={selected.id} groupId={selected.id} myUid={myUid} now={now} />
     </div>
   )
 }

@@ -34,7 +34,8 @@
     gap: 22px;
   }
 
-  .header-nav a {
+  .header-nav a,
+  .header-nav .header-disabled {
     padding: 10px 0 8px;
   }
 
@@ -401,17 +402,9 @@
     font-size: 20px;
   }
 
-  /* 공부 중 그룹 탭과 지금 상태 */
-  .live-groups {
-    padding: 0 20px;
-  }
-
+  /* 공부 중 그룹 탭 */
   .live-tab {
     padding: 8px 0 6px;
-  }
-
-  .live-list {
-    grid-template-columns: 1fr;
   }
 
   /* 계정 */
