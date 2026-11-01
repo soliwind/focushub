@@ -42,7 +42,7 @@
 }
 
 .timer[data-status='running'] .timer-status-dot {
-  background: var(--point-deep);
+  background: var(--live-dot);
 }
 
 .timer[data-status='running'] .timer-status-text {

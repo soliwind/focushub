@@ -15,8 +15,8 @@
 }
 
 .member-card[data-me='true'] {
-  background: var(--sky);
-  border-color: var(--point);
+  background: var(--point);
+  border-color: var(--line);
 }
 
 .member-card-top {
@@ -97,5 +97,6 @@
 }
 
 .member-card-day[data-today='true'] .member-card-dot[data-studied='true'] {
-  background: var(--point-deep);
+  background: var(--point);
+  border: 1px solid var(--ink-3);
 }

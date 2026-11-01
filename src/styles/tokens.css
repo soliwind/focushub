@@ -31,11 +31,10 @@
   --bg-idle: #F2ECE7;
 
   /* 학습 달력 농도: 갈색 → 하늘색이 섞인 갈색 → 하늘색 → 진한 하늘색 */
-  --heat-0: #E6DDD5; --heat-1: #C9B39F; --heat-2: #B4BDAF; --heat-3: #9FD3D8; --heat-4: #5FB0BD;
+  --heat-0: #E6DDD5; --heat-1: #C9B39F; --heat-2: #B4BDAF; --heat-3: #ECF8F8; --heat-4: #CDEBEE;
 
-  /* 포인트 파랑: 타이머 시작과 그래프에 단색으로 쓴다 */
-  --point: #8FD0D6;
-  --point-deep: #5FB0BD;
+  /* 포인트 파랑: 그래프에 단색으로 쓴다. 공부 중 배경 그라데이션의 끝 색과 같다 */
+  --point: #ECF8F8;
 
   --radius-area: 16px;
   --radius-control: 10px;

@@ -43,6 +43,8 @@
 
 .daily-bars-col[data-today='true'] .daily-bars-bar {
   background: var(--point);
+  border: 1px solid var(--line);
+  border-bottom: none;
 }
 
 .daily-bars .daily-bars-col .daily-bars-bar[data-empty='true'] {

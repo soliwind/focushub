@@ -25,6 +25,7 @@
 .group-gauge-bar div {
   height: 100%;
   background: var(--point);
+  border-right: 1px solid var(--line);
 }
 
 .group-gauge-reset {

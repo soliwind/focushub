@@ -105,7 +105,7 @@ export default function TimerPage() {
 
           {status === 'idle' && (
             <div className="timer-actions">
-              <button className="btn btn-primary btn-start btn-large" onClick={start} disabled={restoring}>
+              <button className="btn btn-primary btn-large" onClick={start} disabled={restoring}>
                 시작
               </button>
             </div>

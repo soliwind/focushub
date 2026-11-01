@@ -52,6 +52,12 @@
   border-radius: 8px;
 }
 
+/* 파란 칸은 옅어서 바탕과 구분되도록 얇은 테두리를 둔다 */
+.study-calendar [data-level='3'],
+.study-calendar [data-level='4'] {
+  border: 1px solid var(--line);
+}
+
 .study-calendar-day[data-future='true'] {
   color: var(--ink-3);
 }
