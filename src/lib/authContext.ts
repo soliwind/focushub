@@ -11,6 +11,7 @@ export interface AuthValue {
   user: AppUser | null
   loading: boolean // 처음 접속해서 로그인 여부를 확인하는 중인지
   isDevUser: boolean // Firebase 없이 개발용 사용자로 보는 중인지
+  loggedOut: boolean // 방금 직접 로그아웃했는지. 그때는 로그인 화면 대신 랜딩으로 보낸다
   signUp: (name: string, email: string, password: string) => Promise<void>
   logIn: (email: string, password: string) => Promise<void>
   logOut: () => Promise<void>

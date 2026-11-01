@@ -76,9 +76,9 @@
   margin: 52px 0 18px -6px;
   font-family: var(--font-timer);
   font-weight: 300;
-  font-size: 148px;
+  font-size: clamp(56px, 19vw, 148px); /* 화면이 좁아지면 숫자도 함께 줄어든다 */
   line-height: 1;
-  letter-spacing: -7px;
+  letter-spacing: -0.047em;
   color: var(--ink);
 }
 

@@ -51,7 +51,7 @@ export default function DailyBars({ days, totals, todayKey }: Props) {
             ) : (
               <>
                 {weekdayName(day)} {parseDayKey(day).getDate()}
-                {day === todayKey && ' · 오늘'}
+                {day === todayKey && <span className="daily-bars-today-mark"> · 오늘</span>}
               </>
             )}
           </div>

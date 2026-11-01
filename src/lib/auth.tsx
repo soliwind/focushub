@@ -26,6 +26,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 function FirebaseAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(null)
   const [loading, setLoading] = useState(auth !== null)
+  const [loggedOut, setLoggedOut] = useState(false)
 
   // Firebase가 로그인 상태가 바뀔 때마다 알려 준다. 새로고침해도 로그인이 유지된다.
   useEffect(() => {
@@ -44,7 +45,9 @@ function FirebaseAuthProvider({ children }: { children: ReactNode }) {
     user,
     loading,
     isDevUser: false,
+    loggedOut,
     signUp: async (name, email, password) => {
+      setLoggedOut(false)
       const credential = await createUserWithEmailAndPassword(requireAuth(), email, password)
       await updateProfile(credential.user, { displayName: name })
       await saveDisplayName(credential.user.uid, name)
@@ -53,8 +56,12 @@ function FirebaseAuthProvider({ children }: { children: ReactNode }) {
     },
     logIn: async (email, password) => {
       await signInWithEmailAndPassword(requireAuth(), email, password)
+      setLoggedOut(false)
     },
-    logOut: () => signOut(requireAuth()),
+    logOut: async () => {
+      setLoggedOut(true)
+      await signOut(requireAuth())
+    },
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
@@ -63,14 +70,25 @@ function FirebaseAuthProvider({ children }: { children: ReactNode }) {
 // 처음부터 개발용 사용자로 로그인된 상태. 로그인·회원가입은 어떤 값을 넣어도 통과한다.
 function DevAuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AppUser | null>(DEV_USER)
+  const [loggedOut, setLoggedOut] = useState(false)
 
   const value: AuthValue = {
     user,
     loading: false,
     isDevUser: true,
-    signUp: async (name, email) => setUser({ ...DEV_USER, displayName: name || DEV_USER.displayName, email }),
-    logIn: async (email) => setUser({ ...DEV_USER, email }),
-    logOut: async () => setUser(null),
+    loggedOut,
+    signUp: async (name, email) => {
+      setLoggedOut(false)
+      setUser({ ...DEV_USER, displayName: name || DEV_USER.displayName, email })
+    },
+    logIn: async (email) => {
+      setLoggedOut(false)
+      setUser({ ...DEV_USER, email })
+    },
+    logOut: async () => {
+      setLoggedOut(true)
+      setUser(null)
+    },
   }
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
